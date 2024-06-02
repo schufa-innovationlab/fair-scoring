@@ -486,3 +486,79 @@ class BiasResult:
     def __init__(self, bias:float):
         self.bias = bias
         self.p_value = None
+
+
+class TwoGroupMixin(BaseBiasMetric):
+    """
+    A mixin for metrics that only support two groups
+    """
+
+    def _check_input(self, scores: ArrayLike, target: ArrayLike, attribute: ArrayLike, groups: list,
+                     favorable_target: Union[str, int]) -> tuple[ArrayLike, ArrayLike, ArrayLike, list]:
+        # Check number of groups
+        n = len(groups)
+        if n != 2:
+            raise ValueError(f"Metric requires exactly two groups. Instead {n} groups where provided.")
+
+        return super()._check_input(scores, target, attribute, groups, favorable_target)
+
+    @abstractmethod
+    def _compute_bias(self, disadv_grp, adv_grp, total=None, min_score=None, max_score=None) -> TwoGroupBiasResult:
+        pass
+
+
+class TwoGroupBiasResult(BiasResult):
+    """
+    A base class to store bias results.
+
+    Child classes of this class are used to store metric-specific intermediate results that allow for further
+    bias analyses, such as metric-specific plots.
+
+    Parameters
+    ----------
+    bias: float
+        The bias value
+
+    pos: float
+        The positive component of the bias
+
+    neg: float
+        The negative component of the bias
+
+    Attributes
+    ----------
+    bias: float
+        The bias value
+
+    pos: float
+        The positive component of the bias
+
+    neg: float
+        The negative component of the bias
+    """
+    def __init__(self, bias: float, pos: float, neg: float):
+        super().__init__(bias=bias)
+        self.pos = pos
+        self.neg = neg
+
+    @property
+    def pos_component(self):
+        """
+        Proportion of the positive component in the total bias
+
+        Returns
+        -------
+        Proportion of the positive component in the total bias
+        """
+        return np.abs(self.pos / self.bias)
+
+    @property
+    def neg_component(self):
+        """
+        Proportion of the negative component in the total bias
+
+        Returns
+        -------
+        Proportion of the negative component in the total bias
+        """
+        return np.abs(self.neg / self.bias)
