@@ -2,9 +2,6 @@ import os
 import sys
 
 from setuptools import setup, find_packages
-
-
-
 here = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -16,9 +13,9 @@ def run_setup():
         readme = ""
 
     setup(
-        name="fairscoring",
+        name="fair-scoring",
         author="SCHUFA Holding AG",
-        description="Fairness metrics for continuous scores",
+        description="Fairness metrics for continuous risk scores",
         long_description=readme,
         long_description_content_type="text/markdown",
         license="Apache 2.0",
@@ -28,10 +25,11 @@ def run_setup():
         include_package_data=True,
         url="https://github.com/schufa-innovationlab/fairscoring",
         install_requires=[
-            # TODO: list dependencies, here (remove numpy, if not needed)
-            "numpy>=1.11.2",
+            "pandas>=2.2.1",
+            "numpy>=1.26.4",
+            "scikit-learn>=1.4.1"
         ],
-        python_requires=">=3.7",
+        python_requires=">=3.9",
         extras_require={
             "dev": [
                 "sphinx>=6.2.1",              # Basic sphinx engine
@@ -44,8 +42,6 @@ def run_setup():
         classifiers=[
             "License :: OSI Approved :: Apache Software License",
             "Programming Language :: Python :: 3 :: Only",
-            "Programming Language :: Python :: 3.7",
-            "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: 3.11",

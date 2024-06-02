@@ -7,12 +7,12 @@ The implemented algorithms are described in the paper [[1]](#References).
 
 Install with `pip` directly:
 ```shell
-pip install git+https://github.com/schufa-innovationlab/fairscoring.git
+pip install git+https://github.com/schufa-innovationlab/fair-scoring.git
 ```
 
 To install a specific version, use
 ```shell
-pip install git+https://github.com/schufa-innovationlab/fairscoring.git@0.0.1
+pip install git+https://github.com/schufa-innovationlab/fair-scoring.git@0.0.1
 ```
 where `0.0.1` has to be replaced with any tag or branch.
 

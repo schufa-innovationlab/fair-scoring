@@ -17,7 +17,7 @@ copyright = '2024, SCHUFA Holding AG'
 author = 'SCHUFA Holding AG'
 
 # Suggested by https://setuptools-scm.readthedocs.io/en/latest/usage/#usage-from-sphinx
-release = get_version('fairscoring')
+release = get_version('fair-scoring')
 version = ".".join(release.split('.')[:2])     # for example take major/minor
 
 # -- General configuration ---------------------------------------------------

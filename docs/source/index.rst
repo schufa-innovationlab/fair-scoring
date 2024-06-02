@@ -20,6 +20,7 @@ Table of Content
    intro
    examples
    autoapi/index
+   changelog
 
 
 
