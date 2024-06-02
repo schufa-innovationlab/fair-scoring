@@ -38,6 +38,10 @@ attribute = df['race']
 bias = bias_eo(scores, target, attribute, groups=['African-American', 'Caucasian'],favorable_target=0)
 ```
 
+### Further examples
+Further examples - especially the experiments conducted for the publication -  can be found 
+[in the documentation](docs/source/examples).
+
 ## Development
 ### Setup
 Clone the repository and install from this source via
