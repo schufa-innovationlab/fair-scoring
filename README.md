@@ -7,16 +7,8 @@ The implemented algorithms are described in the paper [[1]](#References).
 
 Install with `pip` directly:
 ```shell
-pip install git+https://github.com/schufa-innovationlab/fair-scoring.git
+pip install fair-scoring
 ```
-
-To install a specific version, use
-```shell
-pip install git+https://github.com/schufa-innovationlab/fair-scoring.git@0.0.1
-```
-where `0.0.1` has to be replaced with any tag or branch.
-
-
 
 ## Usage
 The following example shows how compute the equal opportunity bias of the compas dataset
