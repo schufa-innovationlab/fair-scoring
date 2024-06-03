@@ -23,7 +23,7 @@ def run_setup():
         packages=find_packages(where="src"),
         package_dir={"":"src"},
         include_package_data=True,
-        url="https://github.com/schufa-innovationlab/fairscoring",
+        url="https://github.com/schufa-innovationlab/fair-scoring",
         install_requires=[
             "pandas>=2.2.1",
             "numpy>=1.26.4",
