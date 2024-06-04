@@ -21,13 +21,9 @@ def compas_data():
     df.rename(columns=dict((column_name, column_name.lower()) for column_name in df.columns),
               inplace=True)
 
-    score_column = 'counter_decile_score'
+    score_column = 'decile_score'
     target_column = 'two_year_recid'
     protected_attribute_column = 'race'
-
-    # The Compas Score is a risk score. For the ScoreDataset the score must reflect the (potentially scaled) probability to achieve the favorable outcome.
-    # So, a higher score must be better than a lower score. We thus calculate the counter-score first
-    df[score_column] = 11 - df['decile_score']
 
     # Get Columns
     scores = df[score_column]
@@ -56,7 +52,7 @@ def test_compas_tab_1(compas_data, metric, bias, pos, neg):
     target = compas_data[1]
     attr = compas_data[2]
 
-    result = metric.bias(scores, target, attr, groups, favorable_target)
+    result = metric.bias(scores, target, attr, groups, favorable_target, prefer_high_scores=False)
 
     bias_ = np.round(result.bias, 3)
     pos_ = np.round(100 * result.pos_component, 0)

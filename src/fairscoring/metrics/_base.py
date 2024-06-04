@@ -257,7 +257,8 @@ class BaseBiasMetric(ABC):
             min_score: Optional[float] = None,
             max_score: Optional[float] = None,
             n_permute: Optional[int] = None,
-            seed:Optional[int] = None
+            seed:Optional[int] = None,
+            prefer_high_scores: bool = True
     ) -> BiasResult:
         """
         Bias computation
@@ -291,6 +292,9 @@ class BaseBiasMetric(ABC):
         n_permute: int, optional
             Number of iterations for the permutation test.
             Permutation tests are only performed if this value is `>0`.
+
+        prefer_high_scores: bool, optional
+            Specify whether high scores or low scores are favorable.
 
         Returns
         -------
@@ -328,6 +332,10 @@ class BaseBiasMetric(ABC):
             if max_score is None:
                 max_score = np.max(scores)
 
+        # Internal score orientation to high_score_is_good:
+        if not prefer_high_scores:
+            scores = max_score + min_score - scores
+
         result = self._bias_iteration(scores, target, attribute, groups, min_score, max_score)
 
         if n_permute is not None and n_permute > 0:
@@ -352,6 +360,7 @@ class BaseBiasMetric(ABC):
             *,
             min_score: Optional[float] = None,
             max_score: Optional[float] = None,
+            prefer_high_scores: bool = True
     ) -> float:
         """
         Bias computation.
@@ -384,6 +393,9 @@ class BaseBiasMetric(ABC):
             The maximal score. This might influence the bias computation, e.g. by defining the integral bounds.
             This is also used for rescaling
 
+        prefer_high_scores: bool, optional
+            Specify whether high scores or low scores are favorable.
+
         Returns
         -------
         bias: float
@@ -391,11 +403,12 @@ class BaseBiasMetric(ABC):
 
         Notes
         -----
-        This method offers less parameters than :meth:`~fairscoring.metrics._base.BaseBiasMetric.bias`,
+        This method offers fewer parameters than :meth:`~fairscoring.metrics._base.BaseBiasMetric.bias`,
         because not all will affect the pure bias value.
         """
         # Compute bias
-        result = self.bias(scores, target, attribute, groups, favorable_target, min_score=min_score, max_score=max_score)
+        result = self.bias(scores, target, attribute, groups, favorable_target, min_score=min_score, max_score=max_score,
+                           prefer_high_scores=prefer_high_scores)
 
         # Only return the pure bias value
         return result.bias

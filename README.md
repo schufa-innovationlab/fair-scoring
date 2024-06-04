@@ -30,12 +30,12 @@ dataURL = 'https://raw.githubusercontent.com/propublica/compas-analysis/master/c
 df = pd.read_csv(dataURL)
 
 # Relevant data
-scores = 11 - df['decile_score']
+scores = df['decile_score']
 target = df['two_year_recid']
 attribute = df['race']
 
 # Compute the bias
-bias = bias_eo(scores, target, attribute, groups=['African-American', 'Caucasian'],favorable_target=0)
+bias = bias_eo(scores, target, attribute, groups=['African-American', 'Caucasian'],favorable_target=0,prefer_high_scores=False)
 ```
 
 ### Further examples

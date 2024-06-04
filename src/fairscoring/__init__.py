@@ -1,3 +1,3 @@
 """
-Fairness metrics for continuous risk scores
+Fairness metrics for continuous risk scores.
 """
