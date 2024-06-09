@@ -5,17 +5,12 @@ Installation
 ------------
 
 Install with `pip` directly:
-.. sourcecode:: shell
-
-   pip install git+https://github.com/schufa-innovationlab/fair-scoring.git
-
-To install a specific version, use
 
 .. sourcecode:: shell
 
-   pip install git+https://github.com/schufa-innovationlab/fair-scoring.git@0.0.1
+   pip install fair-scoring
 
-where `0.0.1` has to be replaced with any tag or branch.
+
 
 
 

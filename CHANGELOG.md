@@ -1,5 +1,17 @@
 # Change Log
 
+## [0.1.1] - 2024-06-19
+ 
+### Added
+- Parameter `prefer_high_scores` to allow for both types of scores.
+  This allowed for shorter dataset handling of the COMPAS examples.
+- Preparation to host docs on readthedocs. 
+ 
+### Fixed
+ 
+- Show correct project-link on [pypi.org](https://pypi.org/project/fair-scoring/) 
+- `README.md` shows the correct installation command
+
 ## [0.1.0] - 2024-06-03
  
 ### Added

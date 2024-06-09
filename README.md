@@ -7,16 +7,8 @@ The implemented algorithms are described in the paper [[1]](#References).
 
 Install with `pip` directly:
 ```shell
-pip install git+https://github.com/schufa-innovationlab/fair-scoring.git
+pip install fair-scoring
 ```
-
-To install a specific version, use
-```shell
-pip install git+https://github.com/schufa-innovationlab/fair-scoring.git@0.0.1
-```
-where `0.0.1` has to be replaced with any tag or branch.
-
-
 
 ## Usage
 The following example shows how compute the equal opportunity bias of the compas dataset
@@ -30,12 +22,12 @@ dataURL = 'https://raw.githubusercontent.com/propublica/compas-analysis/master/c
 df = pd.read_csv(dataURL)
 
 # Relevant data
-scores = 11 - df['decile_score']
+scores = df['decile_score']
 target = df['two_year_recid']
 attribute = df['race']
 
 # Compute the bias
-bias = bias_eo(scores, target, attribute, groups=['African-American', 'Caucasian'],favorable_target=0)
+bias = bias_eo(scores, target, attribute, groups=['African-American', 'Caucasian'],favorable_target=0,prefer_high_scores=False)
 ```
 
 ### Further examples
