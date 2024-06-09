@@ -42,7 +42,7 @@ napoleon_use_ivar = True 	        # For maths symbology
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_book_theme'
-html_static_path = ['_static']
+# html_static_path = ['_static']
 html_theme_options = {
     "show_toc_level": 3
 }
@@ -57,14 +57,14 @@ autoapi_root = "autoapi"
 autoapi_add_toctree_entry = True   # Automatically add
 autoapi_options = [
     'members',                     # Display children of an object
-    # 'inherited-members',         # Display children of an object that have been inherited from a base class.
-    'undoc-members',               # Display objects that have no docstring
+    'inherited-members',           # Display children of an object that have been inherited from a base class.
+    # 'undoc-members',             # Display objects that have no docstring
     # 'private-members',           # Display private objects (eg. _foo in Python)
-    # 'special-members',           # Display special objects (eg. __foo__ in Python)
+    'special-members',             # Display special objects (eg. __foo__ in Python)
     'show-inheritance',            # Display a list of base classes below the class signature.
     # 'show-inheritance-diagram',  # Display an inheritance diagram in generated class documentation.'
     'show-module-summary',         # Whether to include autosummary directives in generated module documentation.
-    'imported-members',            # Display objects imported from the same top level package or module.
+    # 'imported-members',            # Display objects imported from the same top level package or module.
 ]
 
 # Turn on for debugging only
@@ -74,6 +74,9 @@ autoapi_keep_files = False
 autoapi_python_use_implicit_namespaces = False
 
 autoapi_template_dir = "_templates/autoapi"
+
+autodoc_typehints = 'description'
+
 
 # Fix for namespace packages
 def top_level(pages):
