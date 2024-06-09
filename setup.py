@@ -25,9 +25,8 @@ def run_setup():
         include_package_data=True,
         url="https://github.com/schufa-innovationlab/fair-scoring",
         install_requires=[
-            "pandas>=2.2.1",
-            "numpy>=1.26.4",
-            "scikit-learn>=1.4.1"
+            "numpy>=1.22.0",
+            "scikit-learn>=1.0.0"
         ],
         python_requires=">=3.9",
         extras_require={
@@ -37,6 +36,7 @@ def run_setup():
                 "sphinx-autoapi>=3.0.0",      # Automatically parse docstrings
                 "myst-nb>=1.0.0",             # Allows to include jupyter & markdown files
                 "pytest>=7.4",                # Testing Framework
+                "pandas>=2.2.1",              # Pandas is required for tests
             ]
         },
         classifiers=[
@@ -45,6 +45,7 @@ def run_setup():
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: 3.11",
+            "Programming Language :: Python :: 3.12",
         ],
     )
 
