@@ -9,6 +9,8 @@ from numpy.typing import ArrayLike
 from sklearn.preprocessing import quantile_transform
 from typing import Union, Literal, Optional
 
+from fairscoring.utils import split_groups
+
 # Internal encoding
 _ENCODING_FAVORABLE_OUTCOME = 0
 _ENCODING_UNFAVORABLE_OUTCOME = 1
@@ -81,12 +83,7 @@ class BaseBiasMetric(ABC):
         """
 
         # Create a filter for each normal group
-        filters = []
-        for grp in groups:
-            if grp is None:
-                filters.append(np.isin(attribute, groups, invert=True))
-            else:
-                filters.append(attribute == grp)
+        filters = split_groups(attribute, groups)
 
         # Handle the case of returning all elements
         if return_total:
@@ -575,3 +572,5 @@ class TwoGroupBiasResult(BiasResult):
         Proportion of the negative component in the total bias
         """
         return np.abs(self.neg / self.bias)
+
+
