@@ -26,7 +26,9 @@ def run_setup():
         url="https://github.com/schufa-innovationlab/fair-scoring",
         install_requires=[
             "numpy>=1.22.0",
-            "scikit-learn>=1.0.0"
+            "scikit-learn>=1.0.0",
+            "matplotlib>=3.6.0",
+            "seaborn>=0.12.0"
         ],
         python_requires=">=3.9",
         extras_require={
