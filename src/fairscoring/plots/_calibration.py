@@ -4,8 +4,7 @@ import seaborn as sns
 import numpy as np
 from sklearn.calibration import calibration_curve
 
-from fairscoring.plots._utils import lighten_color
-from fairscoring.utils import split_groups
+from fairscoring.utils import split_groups, _check_input
 
 from numpy.typing import ArrayLike
 from typing import Union, Optional, List
@@ -15,15 +14,17 @@ def plot_groupwise_score_calibration(
         scores: ArrayLike,
         target: ArrayLike,
         attribute: ArrayLike,
-        groups: Optional[List] = None,
+        groups: List,
+        favorable_target: Union[str, int],
+        *,
         palette: Union[dict,list] = sns.color_palette(),
         n_bins: int = 20,
         n_bootstrap: int = 10,
-        strategy: str = 'uniform',
         rescale: bool = True,
         rescale_by: Optional[List] = None,
         prefer_high_scores: bool = True,
-        figsize: tuple = (10, 5)):
+        figsize: tuple = (10, 5),
+        strategy: str = 'uniform'):
     """
 
     Plot groupwise score calibration.
@@ -32,7 +33,7 @@ def plot_groupwise_score_calibration(
     Parameters
     ----------
     scores: ArrayLike
-            A list of scores
+        A list of scores
 
     target: ArrayLike
         The binary target values. Must have the same length as `scores`.
@@ -44,35 +45,44 @@ def plot_groupwise_score_calibration(
         A list of groups. Each group is given by a value of the protected attribute.
         A value of `None` is used to define a group with all elements that are not in another group.
 
-    palette :
-        color palette, number of colors must equal the categories of y
+    favorable_target: str or int
+        The favorable outcome.
 
-    n_bins : int
-        number of bins
+    palette : dict or list, Optional
+        Color palette, number of colors must equal the categories of y
 
-    n_bootstrap : int, optional
-        number of bootstrap samples; can be slow for large datasets. If None, no bootstrapping is performed.
+    n_bins : int, Default=20
+        Number of bins
 
-    strategy : {'uniform', 'quantiles'}
-        strategy to determine bins
+    n_bootstrap : int, optional, Default=10
+        Number of bootstrap samples; can be slow for large datasets.
+        Set to `None`, to disable bootstrapping.
 
-    rescale_by
-        maximum and minimum possible score value for rescaling. If None, the minimum and maximum from the data are used.
+    rescale_by: List, optional
+        Maximum and minimum possible score value for rescaling. If None, the minimum and maximum from the data are used.
 
-    rescale
-        True if the values are rescaled
+    rescale: bool, default=True
+        True if the values are rescaled.
 
     prefer_high_scores: bool, optional
-            Specify whether high scores or low scores are favorable.
+        Specify whether high scores or low scores are favorable.
 
     figsize: tuple
         Size of the figure.
+
+    Other Parameters
+    ----------------
+    strategy : {'uniform', 'quantiles'}
+        Strategy to determine bins
+
 
     See Also
     --------
     fairscoring.metrics.CalibrationMetric
     sklearn.calibration.calibration_curve
     """
+    scores, target, attribute, groups = _check_input(scores, target, attribute, groups, favorable_target)
+
     # Scaling boundaries.
     if rescale:
         if rescale_by is None:
@@ -102,18 +112,17 @@ def plot_groupwise_score_calibration(
 
     # Iterate Groups
     for i, grp_flt in enumerate(split_groups(attribute, groups)):
+        # Filter Groups
         idx, = np.nonzero(grp_flt)
         grp = groups[i]
 
+        # Pick color by name or index
         if isinstance(palette, dict):
             color = palette[grp]
         else:
             color = palette[i]
 
         if n_bootstrap is not None:
-            # Bootstrap Colors are brighter
-            color_light = lighten_color(color, amount=0.5)
-
             for i in range(n_bootstrap):
                 # Bootstrap Sampling
                 idx_boot = np.random.choice(idx, size=len(idx), replace=True)

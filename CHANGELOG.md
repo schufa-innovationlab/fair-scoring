@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.2.0] - 20??-??-??
+
+### Added
+#### Plots
+- Added calibration plot `fairscoring.plots.plot_groupwise_score_calibration`
+
 ## [0.1.1] - 2024-06-19
  
 ### Added

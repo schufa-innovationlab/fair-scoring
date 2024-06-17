@@ -6,6 +6,10 @@ from numpy.typing import ArrayLike
 from typing import Union, List
 
 
+# Internal encoding
+_ENCODING_FAVORABLE_OUTCOME = 0
+_ENCODING_UNFAVORABLE_OUTCOME = 1
+
 def split_groups(
         attribute: ArrayLike,
         groups: List
@@ -39,3 +43,65 @@ def split_groups(
             filters.append(attribute == grp)
 
     return filters
+
+
+def _check_input(
+        scores: ArrayLike,
+        target: ArrayLike,
+        attribute: ArrayLike,
+        groups: list,
+        favorable_target: Union[str, int]
+) -> tuple[ArrayLike, ArrayLike, ArrayLike, list]:
+    """
+    Checks & normalizes the input values.
+
+    Parameters
+    ----------
+    scores: ArrayLike
+        A list of scores
+
+    target: ArrayLike
+        The binary target values. Must have the same length as `scores`.
+
+    attribute: ndarray
+        The protected attribute. Must have the same length as `scores`.
+
+    groups: list, optional
+        A list of groups. Each group is given by a value of the protected attribute.
+        A value of `None` is used to define a group with all elements that are not in another group.
+
+    favorable_target: str or int
+        The favorable outcome
+
+    Returns
+    -------
+    scores: ArrayLike
+        A list of scores
+
+    target: ArrayLike
+        The binary target values.
+
+    attribute: ndarray
+        The protected attribute.
+
+    groups: list
+        A list of groups. Each group is given by a value of the protected attribute.
+        A value of `None` is used to define a group with all elements that are not in another group.
+
+    Raises
+    ------
+    TODO: define Errors
+    """
+    # TODO: Implement me
+    # Check dimensions
+
+    # Encode target
+    encoding = {False: _ENCODING_UNFAVORABLE_OUTCOME, True: _ENCODING_FAVORABLE_OUTCOME}
+    target = np.asarray(target) == favorable_target
+    target = np.vectorize(encoding.get)(target)  # Apply encoding map
+
+    # Convert to numpy
+    scores = np.asarray(scores)
+    attribute = np.asarray(attribute)
+
+    return scores, target, attribute, groups
