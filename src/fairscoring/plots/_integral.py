@@ -182,6 +182,120 @@ def _plot_cdfs(
     ax.set_ylabel(_get_y_label(fairness_type, is_diff=False))
 
 
+def _plot_cdf_diffs(
+        cdf_x: ArrayLike,
+        cdfs: List[ArrayLike],
+        groups: Optional[list] = None,
+        palette: Union[dict,list] = sns.color_palette(),
+        ax: Optional[matplotlib.axes.Axes] = None,
+        prefer_high_scores: bool = True,
+        fairness_type: Optional[Literal["IND", "EO", "PE"]] = None,
+        score_transform: Optional[Literal["rescale", "quantile"]] = None,
+        scaled_from: Optional[Tuple[float, float]] = None,
+):
+    """
+    Inner function for plotting cumulative distributions functions (cdfs).
+
+    Parameters
+    ----------
+    cdf_x: ArrayLike
+        x-values at which the cdfs are stored. This array is 1-dimensional
+
+    cdfs: List of ArrayLike
+        List of exactly two cdfs, where each cdf ist stored as array of cdf-values corresponding to the values of `cdf_x`.
+
+        __Note__: We assume that the cdfs are based on preprocessed scores, so that higher scores are preferred.
+        We use `prefer_high_scores` to undo that effect in the plots.
+
+    palette : dict or list, Optional
+        Color palette, number of colors must equal the categories of y
+
+    ax: matplotlib.axes.Axes, optional
+        The axes into which the cdfs shall be plotted
+
+    Other Parameters
+    ----------------
+    prefer_high_scores: bool, default=True
+        Specify whether high scores or low scores are favorable.
+        If set to true, the plot will show ``1-cdf``, i.e. the acceptance rate.
+
+        __Note__: There is a connection / interaction with the parameter `scaled_from`:
+
+        - If `scaled_from` is set to ``(worst_score,best_score)`` with ``worst_score > best_score)`` then
+          `prefer_high_scores` is automatically ``False``
+        - If ``prefer_high_scores=False`` and `scaled_from` is not set, all score values (i.e. `cdf_x`) are reverted
+
+    fairness_type: {"IND", "EO", "PE"}, optional
+        The type of fairness that is measured. Accepted values are:
+        1. `"IND"` (Independence),
+        2. `"EO"` (Equal Opportunity),
+        3. `"PE"` (Predictive Equality)
+
+        This parameter is used to determine the label of the y-axis
+
+    score_transform: {"rescale","quantile",None}
+        The transformation appliked to the scores prior to the bias computation.
+        There are two supported methods:
+
+        - rescaling (to the interval `[0,1]`.
+          In this case, the :meth:`~fairscoring.metrics._base.BaseBiasMetric.bias` method can take min and max scores.
+        - quantile transformation. This leads to standardized bias measures.
+
+        This parameter is used to determine the label of the x-axis
+
+    scaled_from: (float, float), optional
+        Pair with ``(min_score, max_score)`` values.
+
+        It is possible to revert the score order. This can either be done by having ``min_score > max_score`` or
+        by not providing `scaled_from` and setting `prefer_high_scores`.
+
+        See also the description of `prefer_high_scores` for further details.
+
+    Raises
+    ------
+    ValueError
+        If there not exactly 2 cdfs.
+
+    """
+    # TODO: Check input
+
+    if len(cdfs) != 2:
+        raise ValueError(f"Expecting 2 cdfs, but found {len(cdfs)}. Plotting differences is not possible.")
+
+    # Handle prefer_high_scores / scaled_from dependencies
+    cdf_x, x_label = _preprocess_x_values(cdf_x, prefer_high_scores, score_transform, scaled_from)
+
+    # Handle defaults
+    if ax is None:
+        ax = plt.gca()
+
+    if groups is None:
+        groups = ["1", "2"]
+
+    # Plot diff-curve
+    diff = (1 - cdfs[0]) - (1 - cdfs[1])
+
+    ax.step(cdf_x, diff, c="black")
+
+    # Fill Pro Group 0
+    ax.fill_between(
+            cdf_x, 0, diff,
+            where=diff > 0, alpha=0.5, color=palette[0], step='pre',
+            label=f'Pro Group {groups[0]}')
+
+    # Fill Pro Group 0
+    ax.fill_between(
+        cdf_x, 0, diff,
+        where=diff <= 0, alpha=0.5, color=palette[1], step='pre',
+        label=f'Pro Group {groups[1]}')
+
+    # Plot the legend
+    ax.legend()
+
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(_get_y_label(fairness_type, is_diff=True))
+
+
 def _preprocess_x_values(cdf_x, prefer_high_scores, score_transform, scaled_from):
     """
     Preprocess the x-values.
