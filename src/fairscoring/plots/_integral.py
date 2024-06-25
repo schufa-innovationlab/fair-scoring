@@ -4,12 +4,148 @@ import matplotlib
 
 
 import numpy as np
-from sklearn.calibration import calibration_curve
-
-from fairscoring.utils import split_groups, _check_input
+from fairscoring.metrics import WassersteinMetric
 
 from numpy.typing import ArrayLike
 from typing import Union, List, Tuple, Literal, Optional
+
+
+def plot_groupwise_cdfs(
+        scores: ArrayLike,
+        target: ArrayLike,
+        attribute: ArrayLike,
+        groups: List,
+        favorable_target: Union[str, int],
+        *,
+        ax: Optional[matplotlib.axes.Axes] = None,
+        palette: Union[dict,list] = sns.color_palette(),
+        fairness_type:Literal["IND", "EO", "PE"],
+        quantile_transform: bool = True,
+        prefer_high_scores: bool = True):
+    """
+    Plot groupwise cumulative distributions functions (cdfs).
+
+    Parameters
+    ----------
+    scores: ArrayLike
+        A list of scores
+
+    target: ArrayLike
+        The binary target values. Must have the same length as `scores`.
+
+    attribute: ndarray
+        The protected attribute. Must have the same length as `scores`.
+
+    groups: list
+        A list of groups. Each group is given by a value of the protected attribute.
+        A value of `None` is used to define a group with all elements that are not in another group.
+
+        __Note__: Currently, only plots with exactly two groups are possible.
+
+    favorable_target: str or int
+        The favorable outcome.
+
+    ax: matplotlib.axes.Axes, optional
+        The axes into which the cdfs shall be plotted
+
+    palette : dict or list, Optional
+        Color palette, number of colors must equal the categories of y
+
+    fairness_type: {"IND", "EO", "PE"}
+        Specifies the type of fairness that is measured. Accepted values are:
+        1. `"IND"` (Independence),
+        2. `"EO"` (Equal Opportunity),
+        3. `"PE"` (Predictive Equality),
+
+    quantile_transform: bool, default=True
+        Specify whether the scores shall be quantile transformed.
+
+    prefer_high_scores: bool, default=True
+        Specify whether high scores or low scores are favorable.
+
+    """
+    if quantile_transform:
+        score_transform = "quantile"
+    else:
+        score_transform = None
+
+    # Apply Metric
+    # TODO: better name handling. Also include this as title into the plots
+    metric = WassersteinMetric(fairness_type=fairness_type, score_transform=score_transform, name="Wasserstein Bias")
+    result = metric.bias(scores, target, attribute, groups, favorable_target, prefer_high_scores=prefer_high_scores)
+
+    _plot_cdfs(result.cdf_x, result.cdfs, groups=groups,
+               ax=ax, palette=palette,
+               fairness_type=fairness_type, score_transform=score_transform, prefer_high_scores=prefer_high_scores)
+
+
+def plot_cdf_diffs(
+        scores: ArrayLike,
+        target: ArrayLike,
+        attribute: ArrayLike,
+        groups: List,
+        favorable_target: Union[str, int],
+        *,
+        ax: Optional[matplotlib.axes.Axes] = None,
+        palette: Union[dict,list] = sns.color_palette(),
+        fairness_type:Literal["IND", "EO", "PE"],
+        quantile_transform: bool = True,
+        prefer_high_scores: bool = True):
+    """
+    Plots the difference between two cumulative distributions functions (cdfs).
+
+    Parameters
+    ----------
+    scores: ArrayLike
+        A list of scores
+
+    target: ArrayLike
+        The binary target values. Must have the same length as `scores`.
+
+    attribute: ndarray
+        The protected attribute. Must have the same length as `scores`.
+
+    groups: list
+        A list of groups. Each group is given by a value of the protected attribute.
+        A value of `None` is used to define a group with all elements that are not in another group.
+
+        __Note__: There must be exactly two groups to plot the differences.
+
+    favorable_target: str or int
+        The favorable outcome.
+
+    ax: matplotlib.axes.Axes, optional
+        The axes into which the cdfs shall be plotted
+
+    palette : dict or list, Optional
+        Color palette, number of colors must equal the categories of y
+
+    fairness_type: {"IND", "EO", "PE"}
+        Specifies the type of fairness that is measured. Accepted values are:
+        1. `"IND"` (Independence),
+        2. `"EO"` (Equal Opportunity),
+        3. `"PE"` (Predictive Equality),
+
+    quantile_transform: bool, default=True
+        Specify whether the scores shall be quantile transformed.
+
+    prefer_high_scores: bool, default=True
+        Specify whether high scores or low scores are favorable.
+
+    """
+    if quantile_transform:
+        score_transform = "quantile"
+    else:
+        score_transform = None
+
+    # Apply Metric
+    # TODO: better name handling. Also include this as title into the plots
+    metric = WassersteinMetric(fairness_type=fairness_type, score_transform=score_transform, name="Wasserstein Bias")
+    result = metric.bias(scores, target, attribute, groups, favorable_target, prefer_high_scores=prefer_high_scores)
+
+    _plot_cdf_diffs(result.cdf_x, result.cdfs, groups=groups,
+               ax=ax, palette=palette,
+               fairness_type=fairness_type, score_transform=score_transform, prefer_high_scores=prefer_high_scores)
 
 
 def _get_y_label(fairness_type: Optional[Literal["IND", "EO", "PE"]] = None, is_diff:bool=False):
@@ -52,7 +188,7 @@ def _get_x_label(score_transform: Optional[Literal["rescale", "quantile"]] = Non
     Parameters
     ----------
     score_transform: {"rescale","quantile",None}
-        The transformation appliked to the scores prior to the bias computation.
+        The transformation applied to the scores prior to the bias computation.
         There are two supported methods:
 
         - rescaling (to the interval `[0,1]`.
@@ -120,7 +256,7 @@ def _plot_cdfs(
 
         __Note__: There is a connection / interaction with the parameter `scaled_from`:
 
-        - If `scaled_from` is set to ``(worst_score,best_score)`` with ``worst_score > best_score)`` then
+        - If `scaled_from` is set to ``(worst_score,best_score)`` with ``worst_score > best_score`` then
           `prefer_high_scores` is automatically ``False``
         - If ``prefer_high_scores=False`` and `scaled_from` is not set, all score values (i.e. `cdf_x`) are reverted
 
@@ -133,7 +269,7 @@ def _plot_cdfs(
         This parameter is used to determine the label of the y-axis
 
     score_transform: {"rescale","quantile",None}
-        The transformation appliked to the scores prior to the bias computation.
+        The transformation applied to the scores prior to the bias computation.
         There are two supported methods:
 
         - rescaling (to the interval `[0,1]`.
@@ -221,7 +357,7 @@ def _plot_cdf_diffs(
 
         __Note__: There is a connection / interaction with the parameter `scaled_from`:
 
-        - If `scaled_from` is set to ``(worst_score,best_score)`` with ``worst_score > best_score)`` then
+        - If `scaled_from` is set to ``(worst_score,best_score)`` with ``worst_score > best_score`` then
           `prefer_high_scores` is automatically ``False``
         - If ``prefer_high_scores=False`` and `scaled_from` is not set, all score values (i.e. `cdf_x`) are reverted
 
@@ -234,7 +370,7 @@ def _plot_cdf_diffs(
         This parameter is used to determine the label of the y-axis
 
     score_transform: {"rescale","quantile",None}
-        The transformation appliked to the scores prior to the bias computation.
+        The transformation applied to the scores prior to the bias computation.
         There are two supported methods:
 
         - rescaling (to the interval `[0,1]`.
@@ -313,12 +449,12 @@ def _preprocess_x_values(cdf_x, prefer_high_scores, score_transform, scaled_from
 
         __Note__: There is a connection / interaction with the parameter `scaled_from`:
 
-        - If `scaled_from` is set to ``(worst_score,best_score)`` with ``worst_score > best_score)`` then
+        - If `scaled_from` is set to ``(worst_score,best_score)`` with ``worst_score > best_score`` then
           `prefer_high_scores` is automatically ``False``
         - If ``prefer_high_scores=False`` and `scaled_from` is not set, all score values (i.e. `cdf_x`) are reverted
 
     score_transform: {"rescale","quantile",None}
-        The transformation appliked to the scores prior to the bias computation.
+        The transformation applied to the scores prior to the bias computation.
         There are two supported methods:
 
         - rescaling (to the interval `[0,1]`.
