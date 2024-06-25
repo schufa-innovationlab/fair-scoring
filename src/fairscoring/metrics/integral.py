@@ -4,7 +4,7 @@ import numpy as np
 from numpy.typing import ArrayLike
 from typing import Literal, Optional
 
-from ._base import BaseBiasMetric, TwoGroupBiasResult, TwoGroupMixin, _ENCODING_FAVORABLE_OUTCOME, _ENCODING_UNFAVORABLE_OUTCOME
+from .base import BaseBiasMetric, TwoGroupBiasResult, TwoGroupMixin, _ENCODING_FAVORABLE_OUTCOME, _ENCODING_UNFAVORABLE_OUTCOME
 from abc import abstractmethod
 
 INDEPENDENCE = 'IND'

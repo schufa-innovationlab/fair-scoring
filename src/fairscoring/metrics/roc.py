@@ -5,7 +5,7 @@ import numpy as np
 from numpy._typing import ArrayLike
 from sklearn.metrics import roc_curve
 
-from ._base import BaseBiasMetric, TwoGroupMixin, TwoGroupBiasResult
+from .base import BaseBiasMetric, TwoGroupMixin, TwoGroupBiasResult
 from typing import Literal, Tuple
 
 
