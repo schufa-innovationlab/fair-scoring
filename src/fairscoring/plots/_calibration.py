@@ -19,7 +19,7 @@ def plot_groupwise_score_calibration(
         favorable_target: Union[str, int],
         *,
         ax: Optional[matplotlib.axes.Axes] = None,
-        palette: Union[dict,list] = sns.color_palette(),
+        palette: Union[list,matplotlib.colors.Colormap] = sns.color_palette(),
         n_bins: int = 20,
         n_bootstrap: int = 10,
         rescale: bool = True,
@@ -49,8 +49,11 @@ def plot_groupwise_score_calibration(
     favorable_target: str or int
         The favorable outcome.
 
-    palette : dict or list, Optional
-        Color palette, number of colors must equal the categories of y
+    ax: matplotlib.axes.Axes, optional
+        The axes into which the calibration curves shall be plotted
+
+    palette : list or Colormap, Optional
+        Color palette, number of colors must at least be number of groups
 
     n_bins : int, Default=20
         Number of bins
@@ -117,8 +120,8 @@ def plot_groupwise_score_calibration(
         grp = groups[i]
 
         # Pick color by name or index
-        if isinstance(palette, dict):
-            color = palette[grp]
+        if isinstance(palette, matplotlib.colors.Colormap):
+            color = palette(i)
         else:
             color = palette[i]
 

@@ -18,7 +18,7 @@ def plot_groupwise_cdfs(
         favorable_target: Union[str, int],
         *,
         ax: Optional[matplotlib.axes.Axes] = None,
-        palette: Union[dict,list] = sns.color_palette(),
+        palette: Union[list,matplotlib.colors.Colormap] = sns.color_palette(),
         fairness_type:Literal["IND", "EO", "PE"],
         quantile_transform: bool = True,
         prefer_high_scores: bool = True):
@@ -48,8 +48,8 @@ def plot_groupwise_cdfs(
     ax: matplotlib.axes.Axes, optional
         The axes into which the cdfs shall be plotted
 
-    palette : dict or list, Optional
-        Color palette, number of colors must equal the categories of y
+    palette : list or Colormap, Optional
+        Color palette, number of colors must at least be number of groups
 
     fairness_type: {"IND", "EO", "PE"}
         Specifies the type of fairness that is measured. Accepted values are:
@@ -87,7 +87,7 @@ def plot_cdf_diffs(
         favorable_target: Union[str, int],
         *,
         ax: Optional[matplotlib.axes.Axes] = None,
-        palette: Union[dict,list] = sns.color_palette(),
+        palette: Union[list,matplotlib.colors.Colormap] = sns.color_palette(),
         fairness_type:Literal["IND", "EO", "PE"],
         quantile_transform: bool = True,
         prefer_high_scores: bool = True):
@@ -117,8 +117,8 @@ def plot_cdf_diffs(
     ax: matplotlib.axes.Axes, optional
         The axes into which the cdfs shall be plotted
 
-    palette : dict or list, Optional
-        Color palette, number of colors must equal the categories of y
+    palette : list or Colormap, Optional
+        Color palette, number of colors must at least be number of groups
 
     fairness_type: {"IND", "EO", "PE"}
         Specifies the type of fairness that is measured. Accepted values are:
@@ -221,8 +221,8 @@ def _plot_cdfs(
         cdf_x: ArrayLike,
         cdfs: ArrayLike,
         groups: Optional[list] = None,
-        palette: Union[dict,list] = sns.color_palette(),
         ax: Optional[matplotlib.axes.Axes] = None,
+        palette: Union[list,matplotlib.colors.Colormap] = sns.color_palette(),
         prefer_high_scores: bool = True,
         fairness_type: Optional[Literal["IND", "EO", "PE"]] = None,
         score_transform: Optional[Literal["rescale", "quantile"]] = None,
@@ -242,11 +242,11 @@ def _plot_cdfs(
         __Note__: We assume that the cdfs are based on preprocessed scores, so that higher scores are preferred.
         We use `prefer_high_scores` to undo that effect in the plots.
 
-    palette : dict or list, Optional
-        Color palette, number of colors must equal the categories of y
-
     ax: matplotlib.axes.Axes, optional
         The axes into which the cdfs shall be plotted
+
+    palette : list or Colormap, Optional
+        Color palette, number of colors must at least be number of groups
 
     Other Parameters
     ----------------
@@ -300,9 +300,9 @@ def _plot_cdfs(
         groups = [None] * cdfs.shape[1]
 
     for i, grp in enumerate(groups):
-        # Pick color by name or index
-        if isinstance(palette, dict):
-            color = palette[grp]
+        # Pick color
+        if isinstance(palette, matplotlib.colors.Colormap):
+            color = palette(i)
         else:
             color = palette[i]
 
@@ -322,8 +322,8 @@ def _plot_cdf_diffs(
         cdf_x: ArrayLike,
         cdfs: List[ArrayLike],
         groups: Optional[list] = None,
-        palette: Union[dict,list] = sns.color_palette(),
         ax: Optional[matplotlib.axes.Axes] = None,
+        palette: Union[list,matplotlib.colors.Colormap] = sns.color_palette(),
         prefer_high_scores: bool = True,
         fairness_type: Optional[Literal["IND", "EO", "PE"]] = None,
         score_transform: Optional[Literal["rescale", "quantile"]] = None,
@@ -343,11 +343,11 @@ def _plot_cdf_diffs(
         __Note__: We assume that the cdfs are based on preprocessed scores, so that higher scores are preferred.
         We use `prefer_high_scores` to undo that effect in the plots.
 
-    palette : dict or list, Optional
-        Color palette, number of colors must equal the categories of y
-
     ax: matplotlib.axes.Axes, optional
         The axes into which the cdfs shall be plotted
+
+    palette : list or Colormap, Optional
+        Color palette, number of colors must at least be number of groups
 
     Other Parameters
     ----------------
@@ -413,16 +413,20 @@ def _plot_cdf_diffs(
 
     ax.step(cdf_x, diff, c="black")
 
+    # Pick color
+    if not isinstance(palette, matplotlib.colors.Colormap):
+        palette = matplotlib.colors.ListedColormap(palette)
+
     # Fill Pro Group 0
     ax.fill_between(
             cdf_x, 0, diff,
-            where=diff > 0, alpha=0.5, color=palette[0], step='pre',
+            where=diff > 0, alpha=0.5, color=palette(0), step='pre',
             label=f'Pro Group {groups[0]}')
 
     # Fill Pro Group 0
     ax.fill_between(
         cdf_x, 0, diff,
-        where=diff <= 0, alpha=0.5, color=palette[1], step='pre',
+        where=diff <= 0, alpha=0.5, color=palette(1), step='pre',
         label=f'Pro Group {groups[1]}')
 
     # Plot the legend
