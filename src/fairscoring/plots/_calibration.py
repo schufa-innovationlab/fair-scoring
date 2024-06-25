@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib
 
 import numpy as np
 from sklearn.calibration import calibration_curve
@@ -17,13 +18,13 @@ def plot_groupwise_score_calibration(
         groups: List,
         favorable_target: Union[str, int],
         *,
+        ax: Optional[matplotlib.axes.Axes] = None,
         palette: Union[dict,list] = sns.color_palette(),
         n_bins: int = 20,
         n_bootstrap: int = 10,
         rescale: bool = True,
         rescale_by: Optional[List] = None,
         prefer_high_scores: bool = True,
-        figsize: tuple = (10, 5),
         strategy: str = 'uniform'):
     """
 
@@ -67,9 +68,6 @@ def plot_groupwise_score_calibration(
     prefer_high_scores: bool, optional
         Specify whether high scores or low scores are favorable.
 
-    figsize: tuple
-        Size of the figure.
-
     Other Parameters
     ----------------
     strategy : {'uniform', 'quantiles'}
@@ -105,10 +103,12 @@ def plot_groupwise_score_calibration(
     def inverse_scaling(scores):
         return np.asarray(scores) * (rescale_by[1] - rescale_by[0]) + rescale_by[0]
 
-    # Create figure &
-    plt.figure(figsize=figsize)
+    # Handle defaults
+    if ax is None:
+        ax = plt.gca()
+
     x_limits = inverse_scaling([1, 0])
-    plt.plot(x_limits, [0, 1], c='black')
+    ax.plot(x_limits, [0, 1], c='black')
 
     # Iterate Groups
     for i, grp_flt in enumerate(split_groups(attribute, groups)):
@@ -133,18 +133,16 @@ def plot_groupwise_score_calibration(
                 # Undo scaling for original scores on x-axis
                 prob_pred = inverse_scaling(prob_pred)
 
-                plt.plot(prob_pred, prob_true, c=color, alpha=0.5, linewidth=1)
+                ax.plot(prob_pred, prob_true, c=color, alpha=0.5, linewidth=1)
 
         # Compute Calibration Curve
         prob_true, prob_pred = calibration_curve(target[idx], scores[idx], n_bins=n_bins, strategy=strategy)
 
         # Undo scaling for original scores on x-axis
         prob_pred = inverse_scaling(prob_pred)
-        plt.plot(prob_pred, prob_true, c=color, marker='o', linewidth=1)
+        ax.plot(prob_pred, prob_true, c=color, marker='o', linewidth=1, label=grp)
 
     # Label Plots
-    plt.xlabel('score')
-    plt.ylabel('true rate')
-    plt.title('Score Calibration')
-
-    plt.show()
+    ax.set_xlabel('score')
+    ax.set_ylabel('true rate')
+    ax.set_title('Score Calibration')
