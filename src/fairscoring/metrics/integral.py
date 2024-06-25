@@ -1,3 +1,6 @@
+"""
+Intergal bias metrics that measure the differences between cumulative distribution functions.
+"""
 from __future__ import annotations
 
 import numpy as np
@@ -10,6 +13,8 @@ from abc import abstractmethod
 INDEPENDENCE = 'IND'
 EQUAL_OPPORTUNITY = 'EO'
 PREDICTIVE_EQUALITY = 'PE'
+
+__all__ = ['IntegralMetric', 'WassersteinMetric', 'INDEPENDENCE', 'EQUAL_OPPORTUNITY', 'PREDICTIVE_EQUALITY']
 
 
 class IntegralMetric(TwoGroupMixin, BaseBiasMetric):

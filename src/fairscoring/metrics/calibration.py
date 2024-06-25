@@ -1,7 +1,13 @@
+"""
+A module to define the calibration bias metric.
+"""
 import numpy as np
 from typing import Union, Iterable, Any, Tuple, Literal, Optional
 from numpy.typing import ArrayLike
 from .base import BaseBiasMetric, TwoGroupMixin, _ENCODING_FAVORABLE_OUTCOME, TwoGroupBiasResult
+
+
+__all__ = ['CalibrationMetric']
 
 
 def get_bins(y_pred,

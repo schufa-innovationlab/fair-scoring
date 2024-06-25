@@ -13,6 +13,8 @@ from typing import Union, Literal, Optional
 _ENCODING_FAVORABLE_OUTCOME = 0
 _ENCODING_UNFAVORABLE_OUTCOME = 1
 
+__all__ = ['BaseBiasMetric', 'BiasResult', 'TwoGroupMixin', 'TwoGroupBiasResult']
+
 
 class BaseBiasMetric(ABC):
     """

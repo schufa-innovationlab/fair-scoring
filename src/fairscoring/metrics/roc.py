@@ -9,6 +9,9 @@ from .base import BaseBiasMetric, TwoGroupMixin, TwoGroupBiasResult
 from typing import Literal, Tuple
 
 
+__all__ = ['ROCBiasMetric', 'bias_roc', 'bias_xroc']
+
+
 class ROCBiasMetric(TwoGroupMixin, BaseBiasMetric):
     """
     ROC-Based Fairness Metrics.
