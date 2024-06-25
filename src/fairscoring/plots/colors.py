@@ -3,11 +3,11 @@ Predefined colors for specific attribute values that can be used in fairness plo
 
 Currently, the following colormaps are defined:
 
-=============================  =============  ========  ==============================================
-Colormap                       Attribute      #Colors   Comment
-=============================  =============  ========  ==============================================
-`colormap_gender_telegraph`    Gender         3         See [1]_ for details. Extended with 3rd color
-=============================  =============  ========  ==============================================
+===============================  =============  ========  ==============================================
+Colormap                         Attribute      #Colors   Comment
+===============================  =============  ========  ==============================================
+``colormap_gender_telegraph``    Gender         3         See [1]_ for details. Extended with 3rd color
+===============================  =============  ========  ==============================================
 
 References
 ----------
