@@ -4,7 +4,12 @@
 
 ### Added
 #### Plots
-- Added calibration plot `fairscoring.plots.plot_groupwise_score_calibration`
+- Calibration plot `fairscoring.plots.plot_groupwise_score_calibration` to visualize calibration bias.
+- Cumulative distribution plot `fairscoring.plots.plot_groupwise_cdfs` and the difference `fairscoring.plots.plot plot_cdf_diffs`
+  to visualize independence, equal opportunity and predictive equality bias.
+
+#### Bias Result Objects
+- New result type `IntegralBiasResult` now contain the cdfs of the group distributions.
 
 ## [0.1.1] - 2024-06-19
  
