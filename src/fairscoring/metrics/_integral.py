@@ -251,7 +251,7 @@ class WassersteinMetric(IntegralMetric):
         super().__init__(fairness_type=fairness_type, name=name, score_transform=score_transform)
         self.p = p
 
-    def _compute_integral_bias(self, x: ArrayLike, cdf_dis: ArrayLike, cdf_adv: ArrayLike) -> TwoGroupBiasResult:
+    def _compute_integral_bias(self, x: ArrayLike, cdf_dis: ArrayLike, cdf_adv: ArrayLike) -> IntegralBiasResult:
         """
         Computes the wasserstein distance between two cdfs
 

@@ -20,7 +20,7 @@ def split_groups(
     Parameters
     ----------
     attribute: ArrayLike
-        The protected attribute. Must have the same length as `scores`.
+        The protected attribute.
 
     groups: List
         A list of groups. Each group is given by a value of the protected attribute.
@@ -96,9 +96,7 @@ def _check_input(
     # Check dimensions
 
     # Encode target
-    encoding = {False: _ENCODING_UNFAVORABLE_OUTCOME, True: _ENCODING_FAVORABLE_OUTCOME}
-    target = np.asarray(target) == favorable_target
-    target = np.vectorize(encoding.get)(target)  # Apply encoding map
+    target = np.where(np.asarray(target) == favorable_target, _ENCODING_FAVORABLE_OUTCOME, _ENCODING_UNFAVORABLE_OUTCOME)
 
     # Convert to numpy
     scores = np.asarray(scores)
