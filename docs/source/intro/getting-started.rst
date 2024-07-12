@@ -4,38 +4,51 @@ Getting Started
 Installation
 ------------
 
-Install with `pip` directly:
+Install with ``pip`` directly:
 
 .. sourcecode:: shell
 
    pip install fair-scoring
 
 
-
-
-
 Introductory Example
 --------------------
-The following example shows how compute the equal opportunity bias of the compas dataset
+The following example shows how compute the equal opportunity bias.
+
+Loading a Dataset
+^^^^^^^^^^^^^^^^^
+For this example, we use the compas dataset.
 
 .. sourcecode:: python
 
    import pandas as pd
-   from fairscoring.metrics import bias_eo
 
    # Load compas data
    dataURL = 'https://raw.githubusercontent.com/propublica/compas-analysis/master/compas-scores-two-years.csv'
    df = pd.read_csv(dataURL)
 
    # Relevant data
-   scores = 11 - df['decile_score']
+   scores = df['decile_score']
    target = df['two_year_recid']
    attribute = df['race']
 
-   # Compute the bias
-   bias = bias_eo(scores, target, attribute, groups=['African-American', 'Caucasian'],favorable_target=0)
+Any other dataset with continuous ``score`` and binary ``target`` and ``attribute`` will also work.
 
-To get a more detailed result, we can call
+Computing the Bias
+^^^^^^^^^^^^^^^^^^
+We use the predefined equal opportunity bias for this example. This bias
+
+.. sourcecode:: python
+
+   from fairscoring.metrics import bias_eo
+
+   bias = bias_eo(scores, target, attribute, groups=['African-American', 'Caucasian'],favorable_target=0, prefer_high_scores=False)
+
+
+
+Detailed Bias
+^^^^^^^^^^^^^
+To get a more detailed result, we can call the :code:`bias()` method:
 
 .. sourcecode:: python
 
@@ -48,4 +61,4 @@ To get a more detailed result, we can call
 
 .. note::
    The information of the result of a bias-computation depends on the metric and also on the call.
-   In this case setting :code:`n_permute=1000` leads to a permutation test, which results in :code:`p_value`.
+   In this case setting :code:`n_permute=1000` leads to a permutation test. Without this :code:`p_value` would be :code:`nan`.
