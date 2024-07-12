@@ -3,23 +3,35 @@ Fair-Scoring
 
 Fairness metrics for continuous risk scores.
 
-The implemented algorithms are described in the paper [Becker2024]_.
-
-References
-----------
-.. [Becker2024] Becker, A.K. and Dumitrasc, O. and Broelemann, K.;
-   Standardized Interpretable Fairness Measures for Continuous Risk Scores;
-   Proceedings of the 41th International Conference on Machine Learning, 2024;
+The implemented algorithms are described in the paper [1]_.
 
 Table of Content
 ================
 
 .. toctree::
    :maxdepth: 2
+   :caption: Introduction
 
-   intro
-   examples
-   autoapi/index
+   intro/overview
+   intro/getting-started
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Examples
+
+   examples/examples
+   examples/experiments
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API Reference
+
+   autoapi/fairscoring/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Development
+
    changelog
 
 

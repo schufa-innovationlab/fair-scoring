@@ -34,7 +34,8 @@ def run_setup():
                 "sphinx>=6.2.1",              # Basic sphinx engine
                 "sphinx-book-theme>=1.1.0",   # Theme for this template
                 "sphinx-autoapi>=3.0.0",      # Automatically parse docstrings
-                "myst-nb>=1.0.0",             # Allows to include jupyter & markdown files
+                "sphinx-design>=0.6.0",       # Nice layouts
+                "myst-nb>=1.0.0",             # Include jupyter & markdown files
                 "pytest>=7.4",                # Testing Framework
                 "pandas>=2.2.1",              # Pandas is required for tests
             ]

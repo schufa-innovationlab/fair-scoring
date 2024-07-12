@@ -28,6 +28,7 @@ extensions = [
     'sphinx.ext.mathjax',             # Render Math in html outputs
     'sphinx.ext.napoleon',            # Support Numpy-Styled docstrings
     'autoapi.extension',              # Automatically creating .rst files from docstrings
+    'sphinx_design',                  # Responsive Websites
     'myst_nb',                        # Support Notebooks and Markdown
 ]
 
@@ -54,7 +55,7 @@ autoapi_dirs = [
     '../../src/fairscoring',
 ]
 autoapi_root = "autoapi"
-autoapi_add_toctree_entry = True   # Automatically add
+autoapi_add_toctree_entry = False  # Automatically add
 autoapi_options = [
     'members',                     # Display children of an object
     'inherited-members',           # Display children of an object that have been inherited from a base class.
@@ -100,7 +101,7 @@ nb_execution_mode = "off"
 myst_enable_extensions  = [
     "amsmath",
     # "attrs_inline",
-    # "colon_fence",
+    "colon_fence",
     # "deflist",
     "dollarmath",
     # "fieldlist",
