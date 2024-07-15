@@ -13,7 +13,7 @@ from typing import Union, Literal, Optional
 _ENCODING_FAVORABLE_OUTCOME = 0
 _ENCODING_UNFAVORABLE_OUTCOME = 1
 
-__all__ = ['BaseBiasMetric', 'BiasResult', 'TwoGroupMixin', 'TwoGroupBiasResult']
+__all__ = ['BaseBiasMetric', 'BiasResult', 'TwoGroupMetric', 'TwoGroupBiasResult']
 
 
 class BaseBiasMetric(ABC):
@@ -503,7 +503,7 @@ class BiasResult:
         self.p_value = None
 
 
-class TwoGroupMixin(BaseBiasMetric):
+class TwoGroupMetric(BaseBiasMetric):
     """
     A mixin for metrics that only support two groups
     """

@@ -4,7 +4,7 @@ A module to define the calibration bias metric.
 import numpy as np
 from typing import Union, Iterable, Any, Tuple, Literal, Optional
 from numpy.typing import ArrayLike
-from .base import BaseBiasMetric, TwoGroupMixin, _ENCODING_FAVORABLE_OUTCOME, TwoGroupBiasResult
+from .base import BaseBiasMetric, TwoGroupMetric, _ENCODING_FAVORABLE_OUTCOME, TwoGroupBiasResult
 
 
 __all__ = ['CalibrationMetric']
@@ -90,7 +90,7 @@ def get_calibration_curve(y_true: Union[np.ndarray, Iterable, int, float],
     return mean_predicted_value[:(len(bins))], fraction_of_positives[:(len(bins))]
 
 
-class CalibrationMetric(TwoGroupMixin, BaseBiasMetric):
+class CalibrationMetric(TwoGroupMetric):
     """
     A Calibration Metric
 

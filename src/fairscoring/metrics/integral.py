@@ -7,7 +7,7 @@ import numpy as np
 from numpy.typing import ArrayLike
 from typing import Literal, Optional
 
-from .base import BaseBiasMetric, TwoGroupBiasResult, TwoGroupMixin, _ENCODING_FAVORABLE_OUTCOME, _ENCODING_UNFAVORABLE_OUTCOME
+from .base import BaseBiasMetric, TwoGroupBiasResult, TwoGroupMetric, _ENCODING_FAVORABLE_OUTCOME, _ENCODING_UNFAVORABLE_OUTCOME
 from abc import abstractmethod
 
 INDEPENDENCE = 'IND'
@@ -17,7 +17,7 @@ PREDICTIVE_EQUALITY = 'PE'
 __all__ = ['IntegralMetric', 'WassersteinMetric', 'INDEPENDENCE', 'EQUAL_OPPORTUNITY', 'PREDICTIVE_EQUALITY']
 
 
-class IntegralMetric(TwoGroupMixin, BaseBiasMetric):
+class IntegralMetric(TwoGroupMetric):
     """
     Base Class for Integral Metrics that compare cdfs.
 
