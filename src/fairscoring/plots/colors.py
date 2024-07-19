@@ -23,6 +23,9 @@ GENDER_MALE = "male"
 GENDER_DIVERSE = "diverse"
 
 
+__all__ = ['GENDER_FEMALE', 'GENDER_MALE', 'GENDER_DIVERSE', 'colormap_gender_telegraph', 'NamedColormap']
+
+
 class NamedColormap(ListedColormap):
     """
     Extension of the `ListedColormap` in which each color is identified by a name.
