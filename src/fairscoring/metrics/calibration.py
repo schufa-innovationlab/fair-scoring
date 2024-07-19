@@ -4,8 +4,8 @@ A module to define the calibration bias metric.
 import numpy as np
 from typing import Union, Iterable, Any, Tuple, Literal, Optional
 from numpy.typing import ArrayLike
-from .base import BaseBiasMetric, TwoGroupMetric, _ENCODING_FAVORABLE_OUTCOME, TwoGroupBiasResult
-
+from .base import TwoGroupMetric, TwoGroupBiasResult
+from fairscoring.utils import _ENCODING_FAVORABLE_OUTCOME
 
 __all__ = ['CalibrationMetric']
 
