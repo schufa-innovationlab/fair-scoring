@@ -16,8 +16,10 @@ Metric              Bias
 ==================  =========================
 
 """
-from ._calibration import CalibrationMetric
-from ._integral import WassersteinMetric
+from .calibration import CalibrationMetric
+from .integral import WassersteinMetric
+
+__all__ = ['bias_cal', 'bias_ind', 'bias_eo', 'bias_pe']
 
 bias_cal = CalibrationMetric(name="Calibration", score_transform="quantile")
 bias_ind = WassersteinMetric(fairness_type="IND", name="Independence", score_transform="quantile")

@@ -11,6 +11,8 @@ from typing import Union, Literal, Optional
 
 from fairscoring.utils import split_groups, _check_input
 
+__all__ = ['BaseBiasMetric', 'BiasResult', 'TwoGroupMetric', 'TwoGroupBiasResult']
+
 
 class BaseBiasMetric(ABC):
     """
@@ -483,7 +485,7 @@ class BiasResult:
         self.p_value = None
 
 
-class TwoGroupMixin(BaseBiasMetric):
+class TwoGroupMetric(BaseBiasMetric):
     """
     A mixin for metrics that only support two groups
     """

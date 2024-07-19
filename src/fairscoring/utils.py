@@ -10,6 +10,7 @@ from typing import Union, List
 _ENCODING_FAVORABLE_OUTCOME = 0
 _ENCODING_UNFAVORABLE_OUTCOME = 1
 
+
 def split_groups(
         attribute: ArrayLike,
         groups: List

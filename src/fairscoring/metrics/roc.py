@@ -5,11 +5,14 @@ import numpy as np
 from numpy._typing import ArrayLike
 from sklearn.metrics import roc_curve
 
-from ._base import BaseBiasMetric, TwoGroupMixin, TwoGroupBiasResult
+from .base import BaseBiasMetric, TwoGroupMetric, TwoGroupBiasResult
 from typing import Literal, Tuple
 
 
-class ROCBiasMetric(TwoGroupMixin, BaseBiasMetric):
+__all__ = ['ROCBiasMetric', 'bias_roc', 'bias_xroc']
+
+
+class ROCBiasMetric(TwoGroupMetric):
     """
     ROC-Based Fairness Metrics.
 

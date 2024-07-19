@@ -12,6 +12,11 @@
 #### Bias Result Objects
 - New result type `IntegralBiasResult` now contain the cdfs of the group distributions.
 
+### Changed
+- Submodules of `fairscoring.metrics` are now public.
+- The class `TwoGroupMixin` is now called `TwoGroupMetric`. 
+  This allows for a more consistent naming scheme.
+
 ## [0.1.1] - 2024-06-19
  
 ### Added
