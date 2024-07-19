@@ -191,7 +191,7 @@ def _get_x_label(score_transform: Optional[Literal["rescale", "quantile"]] = Non
         The transformation applied to the scores prior to the bias computation.
         There are two supported methods:
 
-        - rescaling (to the interval `[0,1]`.
+        - rescaling (to the interval `[0,1]`).
           In this case, the :meth:`~fairscoring.metrics._base.BaseBiasMetric.bias` method can take min and max scores.
         - quantile transformation. This leads to standardized bias measures.
 
@@ -242,6 +242,10 @@ def _plot_cdfs(
         __Note__: We assume that the cdfs are based on preprocessed scores, so that higher scores are preferred.
         We use `prefer_high_scores` to undo that effect in the plots.
 
+    groups: list, optional
+        A list of groups. Each group is given by a value of the protected attribute.
+        The groups are used to label groups in the plot.
+
     ax: matplotlib.axes.Axes, optional
         The axes into which the cdfs shall be plotted
 
@@ -272,7 +276,7 @@ def _plot_cdfs(
         The transformation applied to the scores prior to the bias computation.
         There are two supported methods:
 
-        - rescaling (to the interval `[0,1]`.
+        - rescaling (to the interval `[0,1]`).
           In this case, the :meth:`~fairscoring.metrics._base.BaseBiasMetric.bias` method can take min and max scores.
         - quantile transformation. This leads to standardized bias measures.
 
@@ -343,6 +347,11 @@ def _plot_cdf_diffs(
         __Note__: We assume that the cdfs are based on preprocessed scores, so that higher scores are preferred.
         We use `prefer_high_scores` to undo that effect in the plots.
 
+    groups: list
+        A list of groups. Each group is given by a value of the protected attribute.
+
+        __Note__: There must be exactly two groups to plot the differences.
+
     ax: matplotlib.axes.Axes, optional
         The axes into which the cdfs shall be plotted
 
@@ -373,7 +382,7 @@ def _plot_cdf_diffs(
         The transformation applied to the scores prior to the bias computation.
         There are two supported methods:
 
-        - rescaling (to the interval `[0,1]`.
+        - rescaling (to the interval `[0,1]`).
           In this case, the :meth:`~fairscoring.metrics._base.BaseBiasMetric.bias` method can take min and max scores.
         - quantile transformation. This leads to standardized bias measures.
 
@@ -390,7 +399,7 @@ def _plot_cdf_diffs(
     Raises
     ------
     ValueError
-        If there not exactly 2 cdfs.
+        If there are not exactly 2 cdfs.
 
     """
     # TODO: Check input
@@ -461,7 +470,7 @@ def _preprocess_x_values(cdf_x, prefer_high_scores, score_transform, scaled_from
         The transformation applied to the scores prior to the bias computation.
         There are two supported methods:
 
-        - rescaling (to the interval `[0,1]`.
+        - rescaling (to the interval `[0,1]`).
           In this case, the :meth:`~fairscoring.metrics._base.BaseBiasMetric.bias` method can take min and max scores.
         - quantile transformation. This leads to standardized bias measures.
 

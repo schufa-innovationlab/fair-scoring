@@ -56,7 +56,7 @@ def plot_groupwise_score_calibration(
         Color palette, number of colors must at least be number of groups
 
     n_bins : int, Default=20
-        Number of bins
+        (Maximal) number of bins
 
     n_bootstrap : int, optional, Default=10
         Number of bootstrap samples; can be slow for large datasets.
@@ -126,7 +126,7 @@ def plot_groupwise_score_calibration(
             color = palette[i]
 
         if n_bootstrap is not None:
-            for i in range(n_bootstrap):
+            for _ in range(n_bootstrap):
                 # Bootstrap Sampling
                 idx_boot = np.random.choice(idx, size=len(idx), replace=True)
 
@@ -146,6 +146,6 @@ def plot_groupwise_score_calibration(
         ax.plot(prob_pred, prob_true, c=color, marker='o', linewidth=1, label=grp)
 
     # Label Plots
-    ax.set_xlabel('score')
-    ax.set_ylabel('true rate')
+    ax.set_xlabel('Score')
+    ax.set_ylabel('True Rate')
     ax.set_title('Score Calibration')
