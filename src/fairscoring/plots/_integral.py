@@ -148,75 +148,6 @@ def plot_cdf_diffs(
                fairness_type=fairness_type, score_transform=score_transform, prefer_high_scores=prefer_high_scores)
 
 
-def _get_y_label(fairness_type: Optional[Literal["IND", "EO", "PE"]] = None, is_diff:bool=False):
-    """
-    Gets the y-label for a fairness type
-
-    Parameters
-    ----------
-    fairness_type: {"IND", "EO", "PE"}, optional
-        The type of fairness that is measured. Accepted values are:
-        1. `"IND"` (Independence),
-        2. `"EO"` (Equal Opportunity),
-        3. `"PE"` (Predictive Equality)
-
-    is_diff: bool
-        Specify whether the plot shows differences or original curves
-
-    Returns
-    -------
-    y_label: str
-        The suggested label for the y--axis
-    """
-
-    _RATE_NAMES = {
-        "IND": "Positive Rate",
-        "EO": "True Positive Rate",
-        "PE": "False Positive Rate"
-    }
-    y_label = _RATE_NAMES.get(fairness_type, "Probability")
-
-    if is_diff:
-        y_label = y_label + " Difference"
-    return y_label
-
-
-def _get_x_label(score_transform: Optional[Literal["rescale", "quantile"]] = None, known_limits=False):
-    """
-    Gets the default y-label for a fairness type
-
-    Parameters
-    ----------
-    score_transform: {"rescale","quantile",None}
-        The transformation applied to the scores prior to the bias computation.
-        There are two supported methods:
-
-        - rescaling (to the interval `[0,1]`).
-          In this case, the :meth:`~fairscoring.metrics._base.BaseBiasMetric.bias` method can take min and max scores.
-        - quantile transformation. This leads to standardized bias measures.
-
-    known_limits: bool, default = False
-        If the limits are known then rescaling was undone.
-        This influences the label.
-
-    Returns
-    -------
-    x_label: str
-        The suggested label for the y--axis
-    """
-    if known_limits:
-        return "Score"
-
-    if score_transform == "quantile":
-        x_label = 'Score Quantiles'
-    elif score_transform == "rescale" and not known_limits:
-        x_label = 'Rescaled Score'
-    else:
-        x_label = "Score"
-
-    return x_label
-
-
 def _plot_cdfs(
         cdf_x: ArrayLike,
         cdfs: ArrayLike,
@@ -510,5 +441,73 @@ def _preprocess_x_values(cdf_x, prefer_high_scores, score_transform, scaled_from
     x_label = _get_x_label(score_transform, known_limits=known_limits)
 
     return cdf_x, x_label
+
+
+def _get_x_label(score_transform: Optional[Literal["rescale", "quantile"]] = None, known_limits=False):
+    """
+    Gets the default y-label for a fairness type
+
+    Parameters
+    ----------
+    score_transform: {"rescale","quantile",None}
+        The transformation applied to the scores prior to the bias computation.
+        There are two supported methods:
+
+        - rescaling (to the interval `[0,1]`).
+          In this case, the :meth:`~fairscoring.metrics._base.BaseBiasMetric.bias` method can take min and max scores.
+        - quantile transformation. This leads to standardized bias measures.
+
+    known_limits: bool, default = False
+        If the limits are known then rescaling was undone.
+        This influences the label.
+
+    Returns
+    -------
+    x_label: str
+        The suggested label for the y--axis
+    """
+    if known_limits:
+        return "Score"
+
+    if score_transform == "quantile":
+        x_label = 'Score Quantiles'
+    elif score_transform == "rescale" and not known_limits:
+        x_label = 'Rescaled Score'
+    else:
+        x_label = "Score"
+
+    return x_label
+
+def _get_y_label(fairness_type: Optional[Literal["IND", "EO", "PE"]] = None, is_diff:bool=False):
+    """
+    Gets the y-label for a fairness type
+
+    Parameters
+    ----------
+    fairness_type: {"IND", "EO", "PE"}, optional
+        The type of fairness that is measured. Accepted values are:
+        1. `"IND"` (Independence),
+        2. `"EO"` (Equal Opportunity),
+        3. `"PE"` (Predictive Equality)
+
+    is_diff: bool
+        Specify whether the plot shows differences or original curves
+
+    Returns
+    -------
+    y_label: str
+        The suggested label for the y--axis
+    """
+
+    _RATE_NAMES = {
+        "IND": "Positive Rate",
+        "EO": "True Positive Rate",
+        "PE": "False Positive Rate"
+    }
+    y_label = _RATE_NAMES.get(fairness_type, "Probability")
+
+    if is_diff:
+        y_label = y_label + " Difference"
+    return y_label
 
 
