@@ -301,10 +301,6 @@ class BaseBiasMetric(ABC):
         seed: int, optional
             Random seed for the permutation test.
             Only required if the result need to be 100% reproducible.
-
-        Notes
-        -----
-        This is an internal method that should not be called directly. For this reason, no checks need to be performed.
         """
         # Check & normalize Input
         scores, target, attribute, groups = self._check_input(scores, target, attribute, groups, favorable_target)
