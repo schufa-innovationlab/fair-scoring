@@ -227,7 +227,10 @@ class IntegralBiasResult(TwoGroupBiasResult):
 
 class WassersteinMetric(IntegralMetric):
     """
-    Wasserstein Metric
+    A metric that measures the differences between distributions using the Wasserstein Distance [BeDB24]_.
+
+    This metric can be used to measure independence and separation bias.
+    The `fairness_type`-parameter specifies which bias to measure and hence which distribution will be compared.
 
     Parameters
     ----------

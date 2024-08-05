@@ -3,7 +3,7 @@ Fair-Scoring
 
 Fairness metrics for continuous risk scores.
 
-The implemented algorithms are described in the paper [1]_.
+The implemented algorithms are described in the paper [BeDB24]_.
 
 Table of Content
 ================

@@ -92,7 +92,10 @@ def get_calibration_curve(y_true: Union[np.ndarray, Iterable, int, float],
 
 class CalibrationMetric(TwoGroupMetric):
     """
-    A Calibration Metric
+    This metric measures the differences between two calibration curves [BeDB24]_.
+
+    Calibration is a way to measure sufficiency bias for continuous scores.
+    The `weighting` parameter specifies how differences over the total score range are weighted.
 
     Parameters
     ----------

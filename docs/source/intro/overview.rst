@@ -19,18 +19,19 @@ Default Metrics
 
 Scientific Background
 ---------------------
-The main implemented algorithms are described in the paper [1]_.
+The main implemented algorithms are described in the paper [BeDB24]_.
 Experiments from this work can be found jas jupyter notebooks :doc:`in the examples part <../examples/experiments>`.
 
-Furthermore, the roc-based methods from [2]_ can also be used with this framework.
+Furthermore, the roc-based methods from [VoBC21]_ can also be used with this framework.
 
 References
 ----------
-.. [1] Becker, A.K. and Dumitrasc, O. and Broelemann, K.;
+.. [BeDB24] Becker, A.K. and Dumitrasc, O. and Broelemann, K.;
    Standardized Interpretable Fairness Measures for Continuous Risk Scores;
    Proceedings of the 41th International Conference on Machine Learning, 2024.
 
 
-.. [2] Vogel, R., Bellet, A., Clémençon, S.; Learning Fair Scoring Functions: Bipartite Ranking under
+.. [VoBC21] Vogel, R., Bellet, A., Clémençon, S.; Learning Fair Scoring Functions: Bipartite Ranking under
    ROC-based Fairness Constraints; Proceedings of The 24th International Conference on Artificial
    Intelligence and Statistics, 2021.
+

@@ -5,7 +5,7 @@ import numpy as np
 from numpy._typing import ArrayLike
 from sklearn.metrics import roc_curve
 
-from .base import BaseBiasMetric, TwoGroupMetric, TwoGroupBiasResult
+from .base import TwoGroupMetric, TwoGroupBiasResult
 from typing import Literal, Tuple
 
 
@@ -16,8 +16,8 @@ class ROCBiasMetric(TwoGroupMetric):
     """
     ROC-Based Fairness Metrics.
 
-    These metrics compute the absolute between ROC area (ABROCA) of two roc-curve.
-    The following two metrics can be distingushed:
+    These metrics compute the absolute between ROC area (ABROCA) of two roc-curve [VoBC21]_.
+    The following two metrics can be distinguished:
 
     `roc`
         Compares the classic roc-curves of two groups with each other.
