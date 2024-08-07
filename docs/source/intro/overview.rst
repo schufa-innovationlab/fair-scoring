@@ -16,11 +16,18 @@ Default Metrics
     You don't want to deal wih parameters and different algorithms?
     There are recommended default metrics ready for your use.
 
+Model Agnostic
+    The bias measures in this packages only require the pieces of information for a dataset:
+
+    1. The continuous score
+    2. The binary outcome or label
+    3. The protected attribut or group information
+
 
 Scientific Background
 ---------------------
 The main implemented algorithms are described in the paper [1]_.
-Experiments from this work can be found jas jupyter notebooks :doc:`in the examples part <../examples/experiments>`.
+Experiments from this work can be found as jupyter notebooks :doc:`in the examples part <../examples/experiments>`.
 
 Furthermore, the roc-based methods from [2]_ can also be used with this framework.
 
