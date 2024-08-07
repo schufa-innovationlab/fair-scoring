@@ -6,20 +6,20 @@ A concrete fairness metric is an instance of these classes with a concrete param
 
 There are recommended **default instances** are already included:
 
-==================  =========================
-Metric              Bias
-==================  =========================
-:const:`bias_cal`   Calibration Bias
-:const:`bias_eo`    Equal Opportunity Bias
-:const:`bias_pe`    Predictive Equality Bias
-==================  =========================
+=========================  =========================
+Metric                     Bias
+=========================  =========================
+:const:`bias_metric_cal`   Calibration Bias
+:const:`bias_metric_eo`    Equal Opportunity Bias
+:const:`bias_metric_pe`    Predictive Equality Bias
+=========================  =========================
 
 """
 from .calibration import CalibrationMetric
 from .integral import WassersteinMetric
 
-__all__ = ['bias_cal', 'bias_eo', 'bias_pe']
+__all__ = ['bias_metric_cal', 'bias_metric_eo', 'bias_metric_pe']
 
-bias_cal = CalibrationMetric(name="Calibration", score_transform="quantile")
-bias_eo = WassersteinMetric(fairness_type="EO", name="Equal Opportunity", score_transform="quantile")
-bias_pe = WassersteinMetric(fairness_type="PE", name="Predictive Equality", score_transform="quantile")
+bias_metric_cal = CalibrationMetric(name="Calibration", score_transform="quantile")
+bias_metric_eo = WassersteinMetric(fairness_type="EO", name="Equal Opportunity", score_transform="quantile")
+bias_metric_pe = WassersteinMetric(fairness_type="PE", name="Predictive Equality", score_transform="quantile")

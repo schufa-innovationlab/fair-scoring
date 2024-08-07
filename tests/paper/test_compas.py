@@ -6,8 +6,8 @@ import pytest
 import pandas as pd
 import numpy as np
 
-from fairscoring.metrics import bias_cal, bias_eo, bias_pe
-from fairscoring.metrics.roc import bias_roc, bias_xroc
+from fairscoring.metrics import bias_metric_cal, bias_metric_eo, bias_metric_pe
+from fairscoring.metrics.roc import bias_metric_roc, bias_metric_xroc
 
 
 @pytest.fixture(scope="session")
@@ -37,11 +37,11 @@ def compas_data():
 @pytest.mark.parametrize(
     "metric,bias,pos,neg",
     [
-        (bias_eo,0.161,0,100),
-        (bias_pe,0.154,0,100),
-        (bias_cal,0.034,79,21),
-        (bias_roc,0.016,46,54),
-        (bias_xroc,0.273,0,100),
+        (bias_metric_eo, 0.161, 0, 100),
+        (bias_metric_pe, 0.154, 0, 100),
+        (bias_metric_cal, 0.034, 79, 21),
+        (bias_metric_roc, 0.016, 46, 54),
+        (bias_metric_xroc, 0.273, 0, 100),
     ],
     ids=["EO", "PE", "Cali", "ROC", "xROC"])
 def test_compas_tab_1(compas_data, metric, bias, pos, neg):

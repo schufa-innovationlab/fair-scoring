@@ -15,7 +15,7 @@ The following example shows how compute the equal opportunity bias of the compas
 
 ```python
 import pandas as pd
-from fairscoring.metrics import bias_eo
+from fairscoring.metrics import bias_metric_eo
 
 # Load compas data
 dataURL = 'https://raw.githubusercontent.com/propublica/compas-analysis/master/compas-scores-two-years.csv'
@@ -27,7 +27,8 @@ target = df['two_year_recid']
 attribute = df['race']
 
 # Compute the bias
-bias = bias_eo(scores, target, attribute, groups=['African-American', 'Caucasian'],favorable_target=0,prefer_high_scores=False)
+bias = bias_metric_eo(scores, target, attribute, groups=['African-American', 'Caucasian'], favorable_target=0,
+                      prefer_high_scores=False)
 ```
 
 ### Further examples
