@@ -1,5 +1,6 @@
-Publication
+Experiments
 ===========
+These are the experiments from the paper "Standardized Interpretable Fairness Measures for Continuous Risk Scores" [BeDB24]_.
 
 .. grid:: 1 2 3 3
 
