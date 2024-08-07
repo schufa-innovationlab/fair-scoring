@@ -14,6 +14,7 @@ Table of Content
 
    intro/overview
    intro/getting-started
+   intro/concepts
 
 .. toctree::
    :maxdepth: 2
