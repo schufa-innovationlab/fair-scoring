@@ -65,7 +65,7 @@ autoapi_options = [
     'show-inheritance',            # Display a list of base classes below the class signature.
     # 'show-inheritance-diagram',  # Display an inheritance diagram in generated class documentation.'
     'show-module-summary',         # Whether to include autosummary directives in generated module documentation.
-    # 'imported-members',            # Display objects imported from the same top level package or module.
+    'imported-members',            # Display objects imported from the same top level package or module.
 ]
 
 # Turn on for debugging only
