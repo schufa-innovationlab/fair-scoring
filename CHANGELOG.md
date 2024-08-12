@@ -16,6 +16,12 @@
 - Submodules of `fairscoring.metrics` are now public.
 - The class `TwoGroupMixin` is now called `TwoGroupMetric`. 
   This allows for a more consistent naming scheme.
+- The default bias metrics where renamed from ``bias_``-prefix to a ``bias_metric_``-prefix.
+  This was done, because the old names like ``bias_eo`` are ideal names for variables holding the result of a bias computation.
+
+### Deleted
+- The independence bias has no default instance `fairscoring.metrics.bias_ind` anymore.
+  The reason is, that independence bias is no recommended bias metric. 
 
 ## [0.1.1] - 2024-06-19
  
