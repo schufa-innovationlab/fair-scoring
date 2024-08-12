@@ -4,15 +4,19 @@ A collection fairness metrics to measure the bias of scores.
 The package consists of multiple classes that cover different fairness concepts and distance metrics.
 A concrete fairness metric is an instance of these classes with a concrete parametrization.
 
+
 There are recommended **default instances** are already included:
 
-=========================  =========================
-Metric                     Bias
-=========================  =========================
-:const:`bias_metric_cal`   Calibration Bias
-:const:`bias_metric_eo`    Equal Opportunity Bias
-:const:`bias_metric_pe`    Predictive Equality Bias
-=========================  =========================
+=========================  =========================  =========================================
+Metric                     Bias                       Class
+=========================  =========================  =========================================
+:const:`bias_metric_cal`   Calibration Bias           :class:`~.calibration.CalibrationMetric`
+:const:`bias_metric_eo`    Equal Opportunity Bias     :class:`~.integral.WassersteinMetric`
+:const:`bias_metric_pe`    Predictive Equality Bias   :class:`~.integral.WassersteinMetric`
+=========================  =========================  =========================================
+
+.. versionchanged:: 0.2.0
+   The ``bias_`` prefixed constants are now prefixed by ``bias_metric_``
 
 """
 from .calibration import CalibrationMetric
