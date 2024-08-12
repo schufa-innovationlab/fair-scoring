@@ -9,7 +9,7 @@ from .base import BaseBiasMetric, TwoGroupMetric, TwoGroupBiasResult
 from typing import Literal, Tuple
 
 
-__all__ = ['ROCBiasMetric', 'bias_roc', 'bias_xroc']
+__all__ = ['ROCBiasMetric', 'bias_metric_roc', 'bias_metric_xroc']
 
 
 class ROCBiasMetric(TwoGroupMetric):
@@ -208,8 +208,9 @@ def _roc(s0:ArrayLike, s1:ArrayLike) -> Tuple[ArrayLike, ArrayLike]:
 
     return fpr, tpr
 
+
 # Default instances
-bias_roc = ROCBiasMetric("ROC bias", bias_type="roc")
-bias_xroc = ROCBiasMetric("xROC bias", bias_type="xroc")
+bias_metric_roc = ROCBiasMetric("ROC bias", bias_type="roc")
+bias_metric_xroc = ROCBiasMetric("xROC bias", bias_type="xroc")
 
 
