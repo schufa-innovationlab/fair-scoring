@@ -55,3 +55,35 @@ ROC / ABROCA Metrics
     1. Setting ``bias_type='roc'`` computes the area between the groupwise roc-curves.
     2. Setting ``bias_type='xroc'`` (cross-roc) builds roc-curves with :math:`Y=0` samples from one group and :math:`Y=1`
        samples from the other group.
+
+API Concepts
+------------
+Metrics
+^^^^^^^
+In this package, each bias metric is implemented as an instance of the :class:`~fairscoring.metrics.base.BaseBiasMetric` class.
+The main method of this class is :meth:`~fairscoring.metrics.base.BaseBiasMetric.bias`, which takes three arrays and
+some metadata to compute the bias. These three arrays are:
+
+1. The score value of each sample
+2. The target variable / the actual outcome
+3. The attribute or group each sample belongs to
+
+As a convenience function, :class:`~fairscoring.metrics.base.BaseBiasMetric` is also callable. Calling a metric will
+return the bias as a single float value.
+
+Bias Results
+^^^^^^^^^^^^
+The method :meth:`~fairscoring.metrics.base.BaseBiasMetric.bias` returns a :class:`~fairscoring.metrics.base.BiasResult`
+object. In its basic form, this class only contains a single ``bias`` value. The idea is to extend this class to return
+further data specific to some bias metrics.
+Most notable is the :class:`~fairscoring.metrics.base.TwoGroupBiasResult` that is currently supported by each bias metric.
+Beside the pure bias value, it also contains a split into positive and negative bias.
+
+Plots
+^^^^^
+The package contains a number of plots that visualize the bias.
+These allow for a better understanding of the bias. Each plot takes an axes, which allows to combine multiple
+plots into one bias figure.
+
+See the :mod:`fairscoring.plots` module for a list of supported plots.
+Examples for their usage can be found in the :doc:`examples <../examples/examples>` section.

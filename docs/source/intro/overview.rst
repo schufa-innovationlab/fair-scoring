@@ -14,7 +14,7 @@ Multiple Algorithms and Variants
 
 Default Metrics
     You don't want to deal wih parameters and different algorithms?
-    There are recommended default metrics ready for your use.
+    There are recommended default metrics ready for your use (see also :mod:`fairscoring.metrics`)
 
 Model Agnostic
     The bias measures in this packages only require the pieces of information for a dataset:

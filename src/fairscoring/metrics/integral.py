@@ -15,7 +15,8 @@ INDEPENDENCE = 'IND'
 EQUAL_OPPORTUNITY = 'EO'
 PREDICTIVE_EQUALITY = 'PE'
 
-__all__ = ['IntegralMetric', 'WassersteinMetric', 'INDEPENDENCE', 'EQUAL_OPPORTUNITY', 'PREDICTIVE_EQUALITY']
+__all__ = ['IntegralMetric', 'IntegralBiasResult', 'WassersteinMetric',
+           'INDEPENDENCE', 'EQUAL_OPPORTUNITY', 'PREDICTIVE_EQUALITY']
 
 
 class IntegralMetric(TwoGroupMetric):
