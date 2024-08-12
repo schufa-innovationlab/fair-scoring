@@ -232,6 +232,9 @@ class WassersteinMetric(IntegralMetric):
     This metric can be used to measure independence and separation bias.
     The `fairness_type`-parameter specifies which bias to measure and hence which distribution will be compared.
 
+    This metric returns a :class:`~IntegralBiasResult` object, which allows to split
+    the bias in positive and negative parts. Furthermore, it stores the cumulative distribution functions of the groups.
+
     Parameters
     ----------
     fairness_type: {"IND", "EO", "PE"}

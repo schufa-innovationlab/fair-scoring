@@ -25,6 +25,9 @@ class ROCBiasMetric(TwoGroupMetric):
     `xroc`
         Builds roc curves with class 0 samples from one group and class 1 samples from the other group.
 
+    This metric returns a :class:`~fairscoring.metrics.base.TwoGroupBiasResult` object, which allows to split
+    the bias in positive and negative parts.
+
     Parameters
     ----------
     name: str

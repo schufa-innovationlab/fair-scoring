@@ -97,6 +97,9 @@ class CalibrationMetric(TwoGroupMetric):
     Calibration is a way to measure sufficiency bias for continuous scores.
     The `weighting` parameter specifies how differences over the total score range are weighted.
 
+    This metric returns a :class:`~fairscoring.metrics.base.TwoGroupBiasResult` object, which allows to split
+    the bias in positive and negative parts.
+
     Parameters
     ----------
     weighting: ("quantiles", "scores")
