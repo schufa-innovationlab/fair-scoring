@@ -4,7 +4,7 @@ The aim of this package is to provide different **metrics** that measure bias in
 
 Fairness Concepts
 -----------------
-Given a scores or prediction :math:`S\in\mathbb{R}`, a binary target variable :math:`Y\in\{0,1\}` and a (binary) group
+Given a score or prediction :math:`S\in\mathbb{R}`, a binary target variable :math:`Y\in\{0,1\}` and a (binary) group variable
 :math:`A\in\{a,b\}`, we can formulate the following concepts for group fairness:
 
 Independence Bias
