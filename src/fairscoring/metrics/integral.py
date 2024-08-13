@@ -15,7 +15,8 @@ INDEPENDENCE = 'IND'
 EQUAL_OPPORTUNITY = 'EO'
 PREDICTIVE_EQUALITY = 'PE'
 
-__all__ = ['IntegralMetric', 'WassersteinMetric', 'INDEPENDENCE', 'EQUAL_OPPORTUNITY', 'PREDICTIVE_EQUALITY']
+__all__ = ['IntegralMetric', 'IntegralBiasResult', 'WassersteinMetric',
+           'INDEPENDENCE', 'EQUAL_OPPORTUNITY', 'PREDICTIVE_EQUALITY']
 
 
 class IntegralMetric(TwoGroupMetric):
@@ -227,7 +228,13 @@ class IntegralBiasResult(TwoGroupBiasResult):
 
 class WassersteinMetric(IntegralMetric):
     """
-    Wasserstein Metric
+    A metric that measures the differences between distributions using the Wasserstein Distance [BeDB24]_.
+
+    This metric can be used to measure independence and separation bias.
+    The `fairness_type`-parameter specifies which bias to measure and hence which distribution will be compared.
+
+    This metric returns a :class:`~IntegralBiasResult` object, which allows to split
+    the bias in positive and negative parts. Furthermore, it stores the cumulative distribution functions of the groups.
 
     Parameters
     ----------
