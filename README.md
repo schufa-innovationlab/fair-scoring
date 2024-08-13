@@ -4,7 +4,7 @@ Fairness metrics for continuous risk scores.
 The implemented algorithms are described in the paper [[1]](#References).
 
 #### Project Links
-[Documentation](https://fair-scoring.readthedocs.io/en/latest/) | [PyPI](https://pypi.org/project/fair-scoring/) | [Paper](https://proceedings.mlr.press/v235/becker24a.html)
+[Documentation](https://fair-scoring.readthedocs.io/en/stable/) | [PyPI](https://pypi.org/project/fair-scoring/) | [Paper](https://proceedings.mlr.press/v235/becker24a.html)
 
 ## Quickstart
 ### Installation
