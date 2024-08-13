@@ -1,5 +1,29 @@
 # Change Log
 
+## [0.2.0] - 2024-08-13
+
+### Added
+#### Plots
+- Calibration plot `fairscoring.plots.plot_groupwise_score_calibration` to visualize calibration bias.
+- Cumulative distribution plot `fairscoring.plots.plot_groupwise_cdfs` and the difference `fairscoring.plots.plot plot_cdf_diffs`.
+  to visualize independence, equal opportunity and predictive equality bias.
+- Custom colormaps in `fairscoring.plots.colors`.
+
+#### Bias Result Objects
+- New result type `IntegralBiasResult` now contain the cdfs of the group distributions.
+
+### Changed
+- Submodules of `fairscoring.metrics` are now public.
+- The class `TwoGroupMixin` is now called `TwoGroupMetric`. 
+  This allows for a more consistent naming scheme.
+- The default bias metrics where renamed from ``bias_``-prefix to a ``bias_metric_``-prefix.
+  This was done, because the old names like ``bias_eo`` are ideal names for variables holding the result of a bias computation.
+- Extended documentation now available at [readthedocs](https://fair-scoring.readthedocs.io/en/stable/).
+
+### Deleted
+- The independence bias has no default instance `fairscoring.metrics.bias_ind` anymore.
+  The reason is, that independence bias is no recommended bias metric. 
+
 ## [0.1.1] - 2024-06-19
  
 ### Added

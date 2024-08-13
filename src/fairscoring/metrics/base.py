@@ -9,9 +9,9 @@ from numpy.typing import ArrayLike
 from sklearn.preprocessing import quantile_transform
 from typing import Union, Literal, Optional
 
-# Internal encoding
-_ENCODING_FAVORABLE_OUTCOME = 0
-_ENCODING_UNFAVORABLE_OUTCOME = 1
+from fairscoring.utils import split_groups, _check_input
+
+__all__ = ['BaseBiasMetric', 'BiasResult', 'TwoGroupMetric', 'TwoGroupBiasResult']
 
 
 class BaseBiasMetric(ABC):
@@ -81,12 +81,7 @@ class BaseBiasMetric(ABC):
         """
 
         # Create a filter for each normal group
-        filters = []
-        for grp in groups:
-            if grp is None:
-                filters.append(np.isin(attribute, groups, invert=True))
-            else:
-                filters.append(attribute == grp)
+        filters = split_groups(attribute, groups)
 
         # Handle the case of returning all elements
         if return_total:
@@ -306,10 +301,6 @@ class BaseBiasMetric(ABC):
         seed: int, optional
             Random seed for the permutation test.
             Only required if the result need to be 100% reproducible.
-
-        Notes
-        -----
-        This is an internal method that should not be called directly. For this reason, no checks need to be performed.
         """
         # Check & normalize Input
         scores, target, attribute, groups = self._check_input(scores, target, attribute, groups, favorable_target)
@@ -461,19 +452,8 @@ class BaseBiasMetric(ABC):
         ------
         TODO: define Errors
         """
-        # TODO: Implement me
-        # Check dimensions
-
-        # Encode target
-        encoding = {False: _ENCODING_UNFAVORABLE_OUTCOME, True: _ENCODING_FAVORABLE_OUTCOME}
-        target = np.asarray(target) == favorable_target
-        target = np.vectorize(encoding.get)(target)  # Apply encoding map
-
-        # Convert to numpy
-        scores = np.asarray(scores)
-        attribute = np.asarray(attribute)
-
-        return scores, target, attribute, groups
+        # The base function just calls an external helper function
+        return _check_input(scores,target,attribute,groups,favorable_target)
 
 
 class BiasResult:
@@ -501,7 +481,7 @@ class BiasResult:
         self.p_value = None
 
 
-class TwoGroupMixin(BaseBiasMetric):
+class TwoGroupMetric(BaseBiasMetric):
     """
     A mixin for metrics that only support two groups
     """
@@ -575,3 +555,5 @@ class TwoGroupBiasResult(BiasResult):
         Proportion of the negative component in the total bias
         """
         return np.abs(self.neg / self.bias)
+
+

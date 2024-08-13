@@ -1,21 +1,25 @@
 # Fair-Scoring
 Fairness metrics for continuous risk scores.
 
-The implemented algorithms are described in the paper [[1]](#References). 
+The implemented algorithms are described in the paper [[1]](#References).
 
-## Installation
+#### Project Links
+[Documentation](https://fair-scoring.readthedocs.io/en/stable/) | [PyPI](https://pypi.org/project/fair-scoring/) | [Paper](https://proceedings.mlr.press/v235/becker24a.html)
+
+## Quickstart
+### Installation
 
 Install with `pip` directly:
 ```shell
 pip install fair-scoring
 ```
 
-## Usage
+### Example Usage
 The following example shows how compute the equal opportunity bias of the compas dataset
 
 ```python
 import pandas as pd
-from fairscoring.metrics import bias_eo
+from fairscoring.metrics import bias_metric_eo
 
 # Load compas data
 dataURL = 'https://raw.githubusercontent.com/propublica/compas-analysis/master/compas-scores-two-years.csv'
@@ -27,10 +31,11 @@ target = df['two_year_recid']
 attribute = df['race']
 
 # Compute the bias
-bias = bias_eo(scores, target, attribute, groups=['African-American', 'Caucasian'],favorable_target=0,prefer_high_scores=False)
+bias = bias_metric_eo(scores, target, attribute, groups=['African-American', 'Caucasian'], favorable_target=0,
+                      prefer_high_scores=False)
 ```
 
-### Further examples
+#### Further examples
 Further examples - especially the experiments conducted for the publication -  can be found 
 [in the documentation](docs/source/examples).
 
@@ -58,14 +63,14 @@ make html
 ```
 
 ## References
-[1] Becker, A.K. and Dumitrasc, O. and Broelemann, K.;
+[1] Becker, A.-K. and Dumitrasc, O. and Broelemann, K.;
 Standardized Interpretable Fairness Measures for Continuous Risk Scores;
-Proceedings of the 41th International Conference on Machine Learning, 2024;
+Proceedings of the 41th International Conference on Machine Learning, 2024; [pdf](https://openreview.net/pdf?id=CvRu2inbGV)
 <details><summary>Bibtex</summary>
 <p>
 
 ```
-@inproceedings{Zern2023Interventional,
+@inproceedings{Becker2024FairScoring,
     author = {Ann{-}Kristin Becker and Oana Dumitrasc and Klaus Broelemann}
     title  = {Standardized Interpretable Fairness Measures for Continuous Risk Scores},
     booktitle={Proceedings of the 41th International Conference on Machine Learning},

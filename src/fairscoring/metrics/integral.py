@@ -1,18 +1,25 @@
+"""
+Intergal bias metrics that measure the differences between cumulative distribution functions.
+"""
 from __future__ import annotations
 
 import numpy as np
 from numpy.typing import ArrayLike
 from typing import Literal, Optional
 
-from ._base import BaseBiasMetric, TwoGroupBiasResult, TwoGroupMixin, _ENCODING_FAVORABLE_OUTCOME, _ENCODING_UNFAVORABLE_OUTCOME
+from .base import TwoGroupBiasResult, TwoGroupMetric
+from fairscoring.utils import _ENCODING_FAVORABLE_OUTCOME, _ENCODING_UNFAVORABLE_OUTCOME
 from abc import abstractmethod
 
 INDEPENDENCE = 'IND'
 EQUAL_OPPORTUNITY = 'EO'
 PREDICTIVE_EQUALITY = 'PE'
 
+__all__ = ['IntegralMetric', 'IntegralBiasResult', 'WassersteinMetric',
+           'INDEPENDENCE', 'EQUAL_OPPORTUNITY', 'PREDICTIVE_EQUALITY']
 
-class IntegralMetric(TwoGroupMixin, BaseBiasMetric):
+
+class IntegralMetric(TwoGroupMetric):
     """
     Base Class for Integral Metrics that compare cdfs.
 
@@ -151,7 +158,7 @@ class IntegralMetric(TwoGroupMixin, BaseBiasMetric):
         return self._compute_integral_bias(x, cdf_dis, cdf_adv)
 
     @abstractmethod
-    def _compute_integral_bias(self, x:ArrayLike, cdf_dis:ArrayLike, cdf_adv:ArrayLike) -> TwoGroupBiasResult:
+    def _compute_integral_bias(self, x:ArrayLike, cdf_dis:ArrayLike, cdf_adv:ArrayLike) -> IntegralBiasResult:
         """
         Computes the bias based on the cdfs
 
@@ -168,15 +175,66 @@ class IntegralMetric(TwoGroupMixin, BaseBiasMetric):
 
         Returns
         -------
-        bias: TwoGroupBiasResult
+        bias: IntegralBiasResult
             The stored results of the bias computation
         """
         pass
 
 
+class IntegralBiasResult(TwoGroupBiasResult):
+    """
+    An extended bias result that also stores groupwise cumulative distribution functions (cdfs).
+
+
+    Parameters
+    ----------
+    bias: float
+        The bias value
+
+    pos: float
+        The positive component of the bias
+
+    neg: float
+        The negative component of the bias
+
+    cdf_x: ArrayLike
+        x-values at which the cdfs are stored. This array is 1-dimensional
+
+    cdfs: List of ArrayLike
+        A list of cdfs.
+
+    Attributes
+    ----------
+    bias: float
+        The bias value
+
+    pos: float
+        The positive component of the bias
+
+    neg: float
+        The negative component of the bias
+
+    cdf_x: ArrayLike
+        x-values at which the cdfs are stored. This array is 1-dimensional
+
+    cdfs: List of ArrayLike
+        A list of cdfs.
+    """
+    def __init__(self, bias: float, pos: float, neg: float, cdf_x: ArrayLike, cdfs: ArrayLike):
+        super().__init__(bias=bias, pos=pos, neg=neg)
+        self.cdf_x = cdf_x
+        self.cdfs = cdfs
+
+
 class WassersteinMetric(IntegralMetric):
     """
-    Wasserstein Metric
+    A metric that measures the differences between distributions using the Wasserstein Distance [BeDB24]_.
+
+    This metric can be used to measure independence and separation bias.
+    The `fairness_type`-parameter specifies which bias to measure and hence which distribution will be compared.
+
+    This metric returns a :class:`~IntegralBiasResult` object, which allows to split
+    the bias in positive and negative parts. Furthermore, it stores the cumulative distribution functions of the groups.
 
     Parameters
     ----------
@@ -205,7 +263,7 @@ class WassersteinMetric(IntegralMetric):
         super().__init__(fairness_type=fairness_type, name=name, score_transform=score_transform)
         self.p = p
 
-    def _compute_integral_bias(self, x: ArrayLike, cdf_dis: ArrayLike, cdf_adv: ArrayLike) -> TwoGroupBiasResult:
+    def _compute_integral_bias(self, x: ArrayLike, cdf_dis: ArrayLike, cdf_adv: ArrayLike) -> IntegralBiasResult:
         """
         Computes the wasserstein distance between two cdfs
 
@@ -230,12 +288,12 @@ class WassersteinMetric(IntegralMetric):
         deltas = np.diff(x)
 
         # determine indices of positive and negative parts
-        idx_pos = np.where((1 - cdf_dis) - (1 - cdf_adv) >= 0)
-        idx_neg = np.where((1 - cdf_dis) - (1 - cdf_adv) < 0)
+        idx_pos = np.where((1 - cdf_dis[:-1]) - (1 - cdf_adv[:-1]) >= 0)
+        idx_neg = np.where((1 - cdf_dis[:-1]) - (1 - cdf_adv[:-1]) < 0)
 
         bias, pos_bias, neg_bias, p_val = _wasserstein_integral(deltas, idx_neg, idx_pos, self.p, cdf_dis, cdf_adv)
 
-        return TwoGroupBiasResult(bias, pos_bias, neg_bias)
+        return IntegralBiasResult(bias, pos_bias, neg_bias, cdf_x=x, cdfs=[cdf_dis, cdf_adv])
 
 
 def _wasserstein_integral(deltas, idx_neg, idx_pos, p, u_cdf, v_cdf):
@@ -309,7 +367,7 @@ def _cdf_from_scores(*args:ArrayLike):
     # both distributions.
     cdfs = []
     for s_val, s_sort in zip(args, s_sorter):
-        cdf_indices = s_val[s_sort].searchsorted(x[:-1], 'right')
+        cdf_indices = s_val[s_sort].searchsorted(x, 'right')
         cdf = cdf_indices / s_val.size
         cdfs.append(cdf)
 

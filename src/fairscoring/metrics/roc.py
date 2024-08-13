@@ -5,22 +5,28 @@ import numpy as np
 from numpy._typing import ArrayLike
 from sklearn.metrics import roc_curve
 
-from ._base import BaseBiasMetric, TwoGroupMixin, TwoGroupBiasResult
+from .base import TwoGroupMetric, TwoGroupBiasResult
 from typing import Literal, Tuple
 
 
-class ROCBiasMetric(TwoGroupMixin, BaseBiasMetric):
+__all__ = ['ROCBiasMetric', 'bias_metric_roc', 'bias_metric_xroc']
+
+
+class ROCBiasMetric(TwoGroupMetric):
     """
     ROC-Based Fairness Metrics.
 
-    These metrics compute the absolute between ROC area (ABROCA) of two roc-curve.
-    The following two metrics can be distingushed:
+    These metrics compute the absolute between ROC area (ABROCA) of two roc-curve [VoBC21]_.
+    The following two metrics can be distinguished:
 
     `roc`
         Compares the classic roc-curves of two groups with each other.
 
     `xroc`
         Builds roc curves with class 0 samples from one group and class 1 samples from the other group.
+
+    This metric returns a :class:`~fairscoring.metrics.base.TwoGroupBiasResult` object, which allows to split
+    the bias in positive and negative parts.
 
     Parameters
     ----------
@@ -205,8 +211,9 @@ def _roc(s0:ArrayLike, s1:ArrayLike) -> Tuple[ArrayLike, ArrayLike]:
 
     return fpr, tpr
 
+
 # Default instances
-bias_roc = ROCBiasMetric("ROC bias", bias_type="roc")
-bias_xroc = ROCBiasMetric("xROC bias", bias_type="xroc")
+bias_metric_roc = ROCBiasMetric("ROC bias", bias_type="roc")
+bias_metric_xroc = ROCBiasMetric("xROC bias", bias_type="xroc")
 
 
