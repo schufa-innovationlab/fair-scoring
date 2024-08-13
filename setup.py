@@ -24,8 +24,13 @@ def run_setup():
         package_dir={"":"src"},
         include_package_data=True,
         url="https://github.com/schufa-innovationlab/fair-scoring",
+        project_urls={
+            "Documentation": "https://fair-scoring.readthedocs.io/en/stable/",
+            "Changelog": "https://fair-scoring.readthedocs.io/en/stable/changelog.html",
+            "Source code": "https://github.com/schufa-innovationlab/fair-scoring",
+        },
         install_requires=[
-            "numpy>=1.22.0",
+            "numpy>=1.22.0,<2.0",             # Not tested with numpy 2.0, yet
             "scikit-learn>=1.0.0",
             "matplotlib>=3.6.0",
             "seaborn>=0.12.0"
