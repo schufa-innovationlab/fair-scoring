@@ -40,9 +40,9 @@ We use the predefined equal opportunity bias for this example. This bias
 
 .. sourcecode:: python
 
-   from fairscoring.metrics import bias_eo
+   from fairscoring.metrics import bias_metric_eo
 
-   bias = bias_eo(scores, target, attribute, groups=['African-American', 'Caucasian'],favorable_target=0, prefer_high_scores=False)
+   bias_eo = bias_metric_eo(scores, target, attribute, groups=['African-American', 'Caucasian'],favorable_target=0, prefer_high_scores=False)
 
 
 
@@ -52,7 +52,7 @@ To get a more detailed result, we can call the :code:`bias()` method:
 
 .. sourcecode:: python
 
-   result = bias_eo.bias(scores, target, attribute, groups=['African-American', 'Caucasian'],favorable_target=0, n_permute=1000)
+   result = bias_metric_eo.bias(scores, target, attribute, groups=['African-American', 'Caucasian'],favorable_target=0, n_permute=1000)
 
    print(f"Bias: {result.bias:.3f}")
    print(f"Pos: {100*result.pos_component:.0f}%")
