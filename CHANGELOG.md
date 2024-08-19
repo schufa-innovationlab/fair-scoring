@@ -1,5 +1,14 @@
 # Change Log
 
+## [0.?.?] - ????-??-??
+### Added
+
+### Changed
+
+### Deleted
+
+### Bugfixes
+
 ## [0.2.1] - 2024-08-15
 ### Bugfixes
 - *Getting started* in the docs still used the old ``bias_eo`` object. Now it shows the correct name ``bias_metric_eo``.
